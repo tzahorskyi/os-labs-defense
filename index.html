@@ -19,7 +19,7 @@
     --accent: #6366f1;
     --accent-soft: rgba(99, 102, 241, 0.18);
     --green: #10b981;
-    --green-bg: rgba(16, 185, 129, 0.11);
+    --green-bg: rgba(16, 185, 129, 0.10);
     --green-border: rgba(16, 185, 129, 0.35);
     --blue: #3b82f6;
     --blue-bg: rgba(59, 130, 246, 0.11);
@@ -27,13 +27,11 @@
     --amber: #f59e0b;
     --amber-bg: rgba(245, 158, 11, 0.11);
     --amber-border: rgba(245, 158, 11, 0.35);
-    --purple: #a855f7;
-    --purple-bg: rgba(168, 85, 247, 0.11);
-    --purple-border: rgba(168, 85, 247, 0.35);
-    --cyan: #06b6d4;
     --code-bg: #070a12;
     --code-text: #e2e8f0;
-    --line-num: #64748b;
+    --out-bg: #04130e;
+    --out-border: #065f46;
+    --out-text: #a7f3d0;
   }
 
   :root[data-theme="light"] {
@@ -55,13 +53,11 @@
     --amber: #d97706;
     --amber-bg: #fffbeb;
     --amber-border: #fde68a;
-    --purple: #7c3aed;
-    --purple-bg: #f5f3ff;
-    --purple-border: #ddd6fe;
-    --cyan: #0891b2;
     --code-bg: #0f172a;
     --code-text: #f8fafc;
-    --line-num: #64748b;
+    --out-bg: #06281e;
+    --out-border: #059669;
+    --out-text: #d1fae5;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -168,8 +164,8 @@
   }
 
   /* ==================== MAIN CONTENT ==================== */
-  .container { max-width: 820px; margin: 0 auto; padding: 12px 12px 40px; }
-  .lab-section { scroll-margin-top: 96px; margin-bottom: 36px; }
+  .container { max-width: 840px; margin: 0 auto; padding: 12px 12px 40px; }
+  .lab-section { scroll-margin-top: 96px; margin-bottom: 38px; }
   .lab-header {
     background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
     color: #fff;
@@ -217,8 +213,7 @@
   .card-prep { background: var(--blue-bg); border: 1px solid var(--blue-border); border-left: 4px solid var(--blue); }
   .card-context { background: var(--amber-bg); border: 1px solid var(--amber-border); border-left: 4px solid var(--amber); }
   .card-code { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--accent); }
-  .card-result { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 4px solid var(--green); }
-  .card-qa { background: var(--purple-bg); border: 1px solid var(--purple-border); border-left: 4px solid var(--purple); }
+  .card-result { background: var(--bg-card); border: 1px solid var(--green-border); border-left: 4px solid var(--green); }
 
   .card-title {
     font-weight: 800;
@@ -257,12 +252,12 @@
     color: #fff;
     margin-right: 5px;
   }
-  .fig-badge {
+  .step-badge {
     display: inline-block;
     font-family: "SF Mono", Menlo, Consolas, monospace;
-    font-size: 0.72rem;
+    font-size: 0.73rem;
     font-weight: 800;
-    padding: 2px 7px;
+    padding: 2px 8px;
     border-radius: 5px;
     background: var(--green);
     color: #fff;
@@ -292,20 +287,31 @@
   }
   .fn-name:first-child { margin-top: 0; }
 
-  .say-box {
-    background: rgba(16, 185, 129, 0.1);
-    border-left: 3px solid var(--green);
-    padding: 8px 10px;
-    border-radius: 6px;
-    margin: 7px 0;
-  }
-  .do-box {
-    background: rgba(59, 130, 246, 0.12);
-    border-left: 3px solid var(--blue);
-    padding: 7px 10px;
-    border-radius: 6px;
-    margin: 7px 0;
+  .comment-box {
+    background: rgba(59, 130, 246, 0.09);
+    border: 1px solid rgba(59, 130, 246, 0.28);
+    border-radius: 8px;
+    padding: 9px 11px;
+    margin: 8px 0;
     font-size: 0.92em;
+  }
+
+  .say-box {
+    background: rgba(16, 185, 129, 0.11);
+    border-left: 3px solid var(--green);
+    padding: 9px 11px;
+    border-radius: 6px;
+    margin: 8px 0;
+  }
+
+  .sub-label {
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin: 8px 0 4px 0;
+    display: block;
   }
 
   code {
@@ -316,7 +322,7 @@
     border-radius: 4px;
     word-break: break-word;
   }
-  .code-wrap { position: relative; margin: 8px 0; }
+  .code-wrap { position: relative; margin: 6px 0; }
   pre {
     font-family: "SF Mono", Menlo, Consolas, monospace;
     font-size: 0.78rem;
@@ -329,6 +335,11 @@
     margin: 0;
     border: 1px solid rgba(148, 163, 184, 0.2);
     white-space: pre;
+  }
+  pre.console-out {
+    background: var(--out-bg);
+    color: var(--out-text);
+    border: 1px solid var(--out-border);
   }
   .copy-btn {
     position: absolute;
@@ -343,9 +354,6 @@
     padding: 3px 7px;
     cursor: pointer;
   }
-  .q { font-weight: 800; color: #c084fc; margin-bottom: 3px; }
-  :root[data-theme="light"] .q { color: #6d28d9; }
-  .a { margin-bottom: 9px; }
 </style>
 </head>
 <body>
@@ -378,47 +386,31 @@
        ========================================================================= -->
   <section id="context" class="lab-section" data-lab-section="context">
     <div class="lab-header">
-      <div class="badge">Загальний контекст курсу ОС • MacBook Pro M1 Pro (arm64)</div>
-      <h2>🧭 Де який код у лабах 1–5 + Як все запустити на Mac</h2>
+      <div class="badge">Швидка підготовка на Mac M1 Pro (arm64)</div>
+      <h2>🧭 Як запустити будь-яку лабу 1 командою</h2>
       <p>Загорський Тарас • ІПЗ-31 • Варіант 6 (N = 6, N+1 = 7, N−1 = 5)</p>
     </div>
 
-    <div id="ctx-where" class="card card-context" data-sub="📌 Де код у лабах?">
-      <div class="card-title"><span>📌 Чому в ЛР 1–3 команди терміналу, а в ЛР 4–5 і STEM — скрипти та код C?</span></div>
-      <p>Щоб ти не плутався, де шукати «рядки коду» в кожній лабораторній з Операційних Систем:</p>
-      <ol>
-        <li><b>ЛР 1 (Порівняння macOS 27.2 та FreeBSD 15.1):</b> за методичкою тут немає програми на C/C# — практична частина виконується <b>системними командами у терміналі macOS та FreeBSD</b> (<code>sw_vers</code>, <code>uname</code>, <code>sysctl</code>, <code>ps</code>, <code>kmutil</code>, <code>diskutil</code>, <code>csrutil</code>, <code>kldstat</code>, <code>zfs</code>, <code>jail</code>). Усі ці команди пронумеровані по рядках у твоєму скрипті <code>start_defense.sh (рядки 40–77)</code> і на скріншотах звіту <code>Рис. 1–13</code>.</li>
-        <li><b>ЛР 2 (VirtualBox + Windows 11 ARM64):</b> це лабораторна з налаштування гіпервізора VirtualBox 7.2.22 та гостьової ОС Windows 11. «Код» тут — це <b>команди CLI-утиліти <code>VBoxManage</code></b> (перевірка конфігурації ВМ, VDI-диска, знімків, спільної теки) у <code>start_defense.sh (рядки 82–115)</code> та <code>cmd.exe</code> у Windows (<code>Рис. 1–15</code> звіту).</li>
-        <li><b>ЛР 3 (VirtualBox + Ubuntu 24.04 LTS ARM64):</b> встановлення Linux у VirtualBox, гостьові доповнення (компіляція модуля ядра <code>vboxguest.ko</code>), спільна тека <code>vboxsf</code> та знімки. Код — це <b>команди <code>VBoxManage</code> на Mac + bash-команди всередині Ubuntu</b> (<code>start_defense.sh, рядки 120–149</code> та <code>Рис. 1–15</code> звіту).</li>
-        <li><b>ЛР 4 (Performance Monitor у Windows, Варіант 6 — Paint):</b> тут є <b>3 реальні файли коду/скриптів</b>:
-          <br>• <code>~/VMs/oslabs/win/lab4/Lab.xml</code> (<b>рядки 1–40</b>) — XML-конфігурація Data Collector Set для 10 лічильників ЦП та переривань;
-          <br>• <code>~/VMs/oslabs/win/lab4/collect.ps1</code> (<b>рядки 1–16</b>) — PowerShell-скрипт запуску <code>logman</code> та конвертації <code>.blg → .csv</code> утилітою <code>relog</code>;
-          <br>• <code>start_defense.sh</code> (<b>рядки 166–191</b>) — Python-скрипт розрахунку середніх і пікових значень із CSV.</li>
-        <li><b>ЛР 5 (Об'єкти ФС у cmd.exe, Варіант 6):</b> тут є <b>готовий Batch-скрипт <code>lab2/Спільна_тека/run_lab5_auto.bat</code> (рядки 1–75) та <code>~/VMs/oslabs/win/lab5_steps.txt</code> (рядки 1–82)</b> — створення каталогів, прихованого <code>.hidden</code>, символічних посилань <code>mklink /d</code>, точок з'єднання <code>mklink /j</code>, жорстких посилань <code>mklink /h</code>, перевірка <code>fsutil hardlink list</code>, розбиття диска <code>diskpart</code> та монтування томів через <code>mountvol</code>.</li>
-        <li><b>STEM-проєкт (Race Condition на ARM64 vs x86_64):</b> у папці <code>STEM PROJECT/код/</code> лежать <b>повноцінні C-програми</b>: <code>race_demo.c (рядки 1–56)</code>, <code>sync_bench.c (рядки 1–115)</code>, <code>bank.c (рядки 1–120)</code>, <code>peterson.c (рядки 1–95)</code>, <code>prodcons.c</code>, <code>litmus_sb.c</code>.</li>
-      </ol>
-    </div>
-
     <div id="ctx-prep" class="card card-prep" data-sub="🛠 Як запустити Mac">
-      <div class="card-title"><span>🛠 Інструкція для тебе: Що відкрити на Mac перед захистом</span></div>
-      <p><b>Крок 1. Відкрий програму <code>Terminal</code> на Mac і перейди в папку предмета:</b></p>
+      <div class="card-title"><span>🛠 Що відкрити і ввести на Mac перед захистом</span></div>
+      <p><b>Крок 1. Відкрий <code>Terminal</code> на Mac і перейди в папку предмета:</b></p>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
         <pre>cd "/Users/taras/Desktop/unik/Operation Systme"</pre>
       </div>
-      <p><b>Крок 2. Запускай потрібну лабораторну однією командою (скрипт сам відкриє потрібні вікна і виконає всі команди):</b></p>
+      <p><b>Крок 2. Запускай потрібну лабораторну однією командою — у терміналі одразу з'являться всі результати, які розібрані нижче:</b></p>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>./start_defense.sh 1     # ЛР 1: відкриє звіт і виконає всі команди macOS (XNU, APFS, SIP) у терміналі
-./start_defense.sh 2     # ЛР 2: покаже конфіг Zahorskyi_Win, знімки, OVA і запустить Windows 11
-./start_defense.sh 3     # ЛР 3: покаже конфіг Zahorskyi_Ubuntu, спільну теку lab3_shared і VirtualBox
-./start_defense.sh 4     # ЛР 4: порахує статистику PerfMon з CSV (Idle vs Paint) і відкриє графіки
-./start_defense.sh 5     # ЛР 5: створить Z:\run_lab5_auto.bat для Windows cmd.exe і покаже сценарій
-./start_defense.sh 6     # STEM: скомпілює C-код через make і прожене тести Race Condition</pre>
+        <pre>./start_defense.sh 1     # ЛР 1: виведе в консоль всі параметри macOS (XNU, APFS, SIP) + відкриє Activity Monitor
+./start_defense.sh 2     # ЛР 2: виведе в консоль конфіг Zahorskyi_Win, диск VDI, знімок і запустить Windows 11
+./start_defense.sh 3     # ЛР 3: виведе конфіг Zahorskyi_Ubuntu, спільну теку lab3_shared і запустить VirtualBox
+./start_defense.sh 4     # ЛР 4: порахує в консолі таблицю середніх і піків із CSV (Idle vs Paint)
+./start_defense.sh 5     # ЛР 5: створить Z:\run_lab5_auto.bat для запуску в cmd.exe всередині Windows 11
+./start_defense.sh 6     # STEM: скомпілює C-код і виведе в консоль результати тестів Race Condition</pre>
       </div>
-      <p><b>Паролі від віртуальних машин (якщо спитає при вході):</b>
-      <br>• <b>Windows 11 (<code>Zahorskyi_Win</code>):</b> користувач <code>taras</code>, пароль <code>Lab2pass</code> (або <code>lab</code>)
-      <br>• <b>Ubuntu 24.04 (<code>Zahorskyi_Ubuntu</code>):</b> користувач <code>taras</code>, пароль <code>lab</code> (або <code>taras</code>)</p>
+      <p><b>Паролі від віртуальних машин (якщо спитає):</b>
+      <br>• <b>Windows 11 (<code>Zahorskyi_Win</code>):</b> логін <code>taras</code>, пароль <code>Lab2pass</code> (або <code>lab</code>)
+      <br>• <b>Ubuntu 24.04 (<code>Zahorskyi_Ubuntu</code>):</b> логін <code>taras</code>, пароль <code>lab</code> (або <code>taras</code>)</p>
     </div>
   </section>
 
@@ -427,38 +419,23 @@
        ========================================================================= -->
   <section id="lab1" class="lab-section" data-lab-section="lab1">
     <div class="lab-header">
-      <div class="badge">Лабораторна робота № 1 • Варіант: macOS 27.2 vs FreeBSD 15.1</div>
+      <div class="badge">Лабораторна робота № 1 • macOS 27.2 vs FreeBSD 15.1</div>
       <h2>Порівняння операційних систем: macOS та FreeBSD</h2>
-      <p>Скрипт: start_defense.sh (рядки 40–77) • Звіт: 14 сторінок, Таблиці 1–2, Рисунки 1–13</p>
+      <p>Запуск на Mac: ./start_defense.sh 1 (рядки 40–77 скрипту)</p>
     </div>
 
-    <div id="lab1-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Інструкція для тебе (Як запустити і що показати)</div>
-
+    <div id="lab1-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Що ввести для запуску ЛР 1</div>
     <div class="card card-prep">
-      <div class="card-title"><span>📋 Покрокова шпаргалка дій для ЛР 1</span></div>
-      <ol>
-        <li><b>Автоматичний запуск (рекомендовано):</b> відкрий <code>Terminal</code> на Mac і введи:
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 1</pre></div>
-          Ця команда сама відкриє PDF-звіт, папку зі скріншотами, програми «Моніторинг системи» і «Дискова утиліта», а в терміналі виконає всі 16 команд дослідження macOS!
-        </li>
-        <li><b>Де лежать файли цієї лаби:</b>
-          <br>• Звіт: <code>lab1/Звіт_ЛР1_Порівняння_ОС_Загорський_Тарас.pdf</code>
-          <br>• Усі скріншоти macOS (<code>01_..07_</code>) та FreeBSD (<code>08_..13_</code>): <code>lab1/скріншоти/</code>
-        </li>
-      </ol>
+      <div class="card-title"><span>📋 Запусти в Terminal на Mac:</span></div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 1</pre></div>
+      <p>Після цього відкриються вікна <b>Activity Monitor</b> і <b>Disk Utility</b>, а в терміналі послідовно виконаються 4 блоки команд. Нижче — спочатку розбір самого коду команд, а далі <b>послідовний розбір кожного виводу в консолі з висновками</b>.</p>
     </div>
 
-    <div class="card card-context">
-      <div class="card-title"><span>🗣 Вступне слово викладачу (Контекст ЛР 1)</span></div>
-      <p>«Метою першої лабораторної роботи є порівняльне дослідження двох споріднених UNIX-систем: пропрієтарної десктопної <b>macOS 27.2</b> (на моєму ноутбуці MacBook Pro з процесором Apple M1 Pro) та вільної серверної <b>FreeBSD 15.1-RELEASE arm64</b> (у віртуальній машині QEMU). Ці дві ОС обрані невипадково: ядро macOS <b>XNU</b> містить підсистему BSD, запозичену саме з FreeBSD, але macOS побудована на гібридному ядрі (Mach + BSD + IOKit) і файловій системі APFS, тоді як FreeBSD має класичне монолітне ядро з модулями <code>kld</code>, файлову систему ZFS і контейнери <code>jails</code>.»</p>
-    </div>
+    <div id="lab1-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір команд з номерами рядків</div>
 
-    <div id="lab1-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір команд з номерами рядків (20 команд)</div>
-
-    <!-- БЛОК 1 ЛР1 -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 51–58) • Рис. 1 (стор. 5)</span> Блок 1 (Рядки 01–06): Версія macOS, ядро Darwin/XNU та апаратні параметри CPU/RAM</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 51–75)</span> Усі 16 команд дослідження macOS з поясненням параметрів</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -467,127 +444,216 @@
 03 | sysctl kern.ostype kern.osrelease
 04 | sysctl -n machdep.cpu.brand_string
 05 | sysctl hw.ncpu hw.memsize
-06 | echo $SHELL && zsh --version</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядок 01: sw_vers</span>
-        <b>Функція:</b> системна утиліта macOS (Software Version), яка читає <code>/System/Library/CoreServices/SystemVersion.plist</code> і виводить <code>ProductName: macOS</code>, <code>ProductVersion: 27.2</code>, <code>BuildVersion: 26B123</code>.<br>
-        <span class="fn-name">Рядок 02: uname -a</span>
-        <b>Функція:</b> POSIX-виклик імені ядра ОС. <b>Параметр <code>-a</code> (all):</b> виводить усі поля: назву ядра <code>Darwin</code>, версію <code>27.2.0</code>, версію збірки <code>root:xnu-13432...</code> та архітектуру <code>arm64</code>.<br>
-        <span class="fn-name">Рядки 03–05: sysctl [ключі MIB] та прапорець -n</span>
-        <b>Функція:</b> читає параметри ядра напряму з дерева MIB (Management Information Base). <b>Параметр <code>-n</code>:</b> виводить лише значення без імені ключа. Ключі: <code>kern.ostype</code> (Darwin), <code>machdep.cpu.brand_string</code> (Apple M1 Pro), <code>hw.ncpu</code> (10 ядер: 8 продуктивних P-ядер + 2 енергоефективних E-ядра), <code>hw.memsize</code> (<code>17179869184</code> байтів = рівно 16 ГБ об'єднаної пам'яті Unified Memory).<br>
-        <span class="fn-name">Рядок 06: echo $SHELL && zsh --version</span>
-        <b>Функція:</b> виводить шлях до поточної командної оболонки за замовчуванням у macOS (<code>/bin/zsh</code>) та її версію (<code>zsh 5.9</code>).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У першому блоці (рядки 01–06, це Рисунок 1 звіту) ми перевіряємо базові параметри хостової ОС macOS. Утиліта <code>sw_vers</code> показує реліз macOS 27.2, а <code>uname -a</code> доводить, що під капотом працює ядро Darwin 27.2.0, зібране з вихідних кодів гібридного ядра XNU для архітектури ARM64. Через системний інтерфейс <code>sysctl</code> ми зчитуємо з ядра модель процесора Apple M1 Pro на 10 ядер та обсяг оперативної пам'яті у байтах — 17,17 млрд байт, тобто 16 ГБ.»
-      </div>
-    </div>
-
-    <!-- БЛОК 2 ЛР1 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 59–68) • Рис. 2, 4 (стор. 5–6)</span> Блок 2 (Рядки 07–12): Процеси, компоненти гібридного ядра XNU та файлова система APFS</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>07 | ps -axco pid,user,%cpu,%mem,comm | head -12
+06 | echo $SHELL && zsh --version
+07 | ps -axco pid,user,%cpu,%mem,comm | head -12
 08 | kmutil showloaded --list-only 2>/dev/null | awk '{print $1, $6, $7}' | head -10
 09 | launchctl list | head -8
 10 | diskutil list internal | head -22
 11 | mount | grep -E 'apfs' | head -5
-12 | df -h / /System/Volumes/Data</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядок 07: ps -axco pid,user,%cpu,%mem,comm</span>
-        <b>Функція:</b> виводить таблицю активних процесів. <b>Параметри:</b> <code>-a</code> (процеси всіх користувачів), <code>-x</code> (включно з фоновими демонами без терміналу), <code>-c</code> (лише коротке ім'я виконуваного файлу), <code>-o ...</code> (вибір конкретних колонок). Показує, що процес з <b>PID 1</b> у macOS — це <code>launchd</code>.<br>
-        <span class="fn-name">Рядок 08: kmutil showloaded --list-only</span>
-        <b>Функція:</b> Kernel Management Utility — виводить завантажені розширення ядра (kext) і системні інтерфейси KPI: <code>com.apple.kpi.mach</code> (мікроядро Mach), <code>com.apple.kpi.bsd</code> (шар BSD) та <code>com.apple.kpi.iokit</code> (об'єктно-орієнтована підсистема драйверів IOKit).<br>
-        <span class="fn-name">Рядки 10–12: diskutil list internal / mount / df -h</span>
-        <b>Функція:</b> показує структуру контейнера <b>APFS</b> (<code>disk3</code>), де системний том <code>Macintosh HD</code> змонтований у режимі <code>read-only, sealed</code> (незмінний криптографічно підписаний знімок), а всі дані користувача лежать на окремому томі <code>/System/Volumes/Data</code>, які спільно ділять вільний простір контейнера (Space Sharing).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 07–09 (Рисунок 2) ми демонструємо архітектуру гібридного ядра XNU: <code>kmutil</code> показує одночасну присутність шарів Mach, BSD та IOKit, а <code>ps</code> показує процес PID 1 — ініціалізатор <code>launchd</code>. У рядках 10–12 (Рисунок 4) показано особливість APFS у сучасній macOS: системний том і том даних рознесені на різні логічні томи одного контейнера, причому системний том запечатаний (sealed) і відкритий лише для читання.»
-      </div>
-    </div>
-
-    <!-- БЛОК 3 ЛР1 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 69–75) • Рис. 6 (стор. 7)</span> Блок 3 (Рядки 13–16): Підсистеми безпеки macOS (SIP, Gatekeeper, FileVault, прапорець restricted)</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>13 | csrutil status
+12 | df -h / /System/Volumes/Data
+13 | csrutil status
 14 | spctl --status && fdesetup status
 15 | codesign --verify --verbose /Applications/Safari.app
 16 | ls -lO /System | head -6</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядок 13: csrutil status</span>
-        <b>Функція:</b> перевіряє стан <b>SIP (System Integrity Protection)</b> — повертає <code>enabled</code>. Забороняє змінювати системні каталоги навіть користувачу <code>root</code>.<br>
-        <span class="fn-name">Рядок 14: spctl --status && fdesetup status</span>
-        <b>Функція:</b> <code>spctl</code> перевіряє стан <b>Gatekeeper</b> (<code>assessments enabled</code> — дозвіл запуску лише підписаних Apple програм), а <code>fdesetup</code> перевіряє апаратне шифрування диска <b>FileVault</b> (<code>FileVault is On</code>).<br>
-        <span class="fn-name">Рядки 15–16: codesign --verify та ls -lO /System</span>
-        <b>Параметр <code>-O</code> у <code>ls</code>:</b> виводить специфічні файлові прапорці BSD/macOS. Показує прапорець <code>restricted</code> на системних теках, який ядро XNU захищає від модифікації.
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 13–16 (Рисунок 6 звіту) ми перевіряємо 4 ешелони захисту macOS: SIP (<code>csrutil</code>), Gatekeeper (<code>spctl</code>), шифрування FileVault (<code>fdesetup</code>) і прапорець <code>restricted</code> у виводі <code>ls -lO</code>, завдяки якому навіть суперкористувач <code>root</code> не може змінити системні файли без перезавантаження у Recovery OS.»
+        <span class="fn-name">Рядки 01–06 (Системна інформація та MIB ядра):</span>
+        • <code>sw_vers</code> — читає <code>SystemVersion.plist</code> і виводить назву, версію та білд macOS;<br>
+        • <code>uname -a</code> — прапорець <code>-a</code> (all) виводить назву ядра (<code>Darwin</code>), версію <code>xnu</code> та архітектуру <code>arm64</code>;<br>
+        • <code>sysctl</code> — звертається напряму до змінних ядра (прапорець <code>-n</code> прибирає назву ключа, залишаючи лише значення): <code>machdep.cpu.brand_string</code> (модель ЦП), <code>hw.ncpu</code> (кількість ядер), <code>hw.memsize</code> (обсяг RAM у байтах).<br>
+        <span class="fn-name">Рядки 07–09 (Процеси та структура гібридного ядра XNU):</span>
+        • <code>ps -axco pid,user,%cpu,%mem,comm</code> — <code>-a</code> (всі користувачі), <code>-x</code> (включно з фоновими демонами), <code>-c</code> (коротке ім'я бінарника), <code>-o</code> (формат колонок);<br>
+        • <code>kmutil showloaded --list-only</code> — показує завантажені підсистеми та розширення ядра XNU;<br>
+        • <code>launchctl list</code> — виводить список служб під керуванням головного демона ініціалізації <code>launchd</code>.<br>
+        <span class="fn-name">Рядки 10–12 (Файлова система APFS):</span>
+        • <code>diskutil list internal</code> — показує фізичну розмітку GPT та синтезований контейнер APFS;<br>
+        • <code>df -h / /System/Volumes/Data</code> — прапорець <code>-h</code> (human-readable, у ГіБ) порівнює заповнення кореневого системного тому <code>/</code> та тому користувацьких даних.<br>
+        <span class="fn-name">Рядки 13–16 (Механізми безпеки macOS):</span>
+        • <code>csrutil status</code> (System Integrity Protection), <code>spctl --status</code> (Gatekeeper), <code>fdesetup status</code> (шифрування FileVault), <code>ls -lO /System</code> (прапорець <code>-O</code> показує системний захисний прапорець <code>restricted</code>).
       </div>
     </div>
 
-    <!-- БЛОК 4 ЛР1 -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">Команди FreeBSD 15.1 • Рис. 8–13 (стор. 8–10)</span> Блок 4 (Рядки 17–22): Дослідження FreeBSD 15.1 (модулі ядра kld, ZFS-снімки, контейнери jail, pkg)</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">Команди FreeBSD 15.1 (рядки 17–22)</span> Команди дослідження FreeBSD (kld, ZFS, jail, pkg)</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>17 | freebsd-version -kru && sysctl kern.ostype kern.osrelease hw.model hw.ncpu
+        <pre>17 | freebsd-version -kru
 18 | kldstat && kldload if_bridge && kldstat
 19 | zpool status zroot && zfs list
 20 | zfs snapshot zroot/ROOT/default@lab1_snap && zfs list -t snapshot
 21 | jail -c name=lab1 host.hostname=lab1.local path=/ command=/bin/sh -c "hostname && ps aux"
-22 | pkg -v && pkg info | wc -l && pkg rquery "%n %v" nginx</pre>
+22 | pkg -v && pkg info | wc -l</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядок 17: freebsd-version -kru</span>
-        <b>Параметри:</b> <code>-k</code> (версія встановленого ядра), <code>-r</code> (версія працюючого ядра в пам'яті), <code>-u</code> (версія користувацького оточення userland). Усі три показують <code>15.1-RELEASE</code>.<br>
-        <span class="fn-name">Рядок 18: kldstat та kldload if_bridge</span>
-        <b>Функція:</b> <code>kldstat</code> виводить завантажені модулі монолітного ядра (<code>kernel</code>, <code>zfs.ko</code>). <code>kldload if_bridge</code> динамічно підвантажує модуль мережевого моста <code>if_bridge.ko</code> та його залежність <code>bridgestp.ko</code> без перезавантаження ОС.<br>
-        <span class="fn-name">Рядки 19–20: zpool status zroot / zfs list / zfs snapshot ...@lab1_snap</span>
-        <b>Функція:</b> перевіряє цілісність пулу ZFS (<code>ONLINE, CKSUM 0</code>) і миттєво за 0 секунд створює Copy-on-Write знімок кореневої ФС <code>@lab1_snap</code> (<code>USED 0B</code>).<br>
-        <span class="fn-name">Рядок 21: jail -c name=lab1 host.hostname=lab1.local path=/ ...</span>
-        <b>Параметр <code>-c</code> (create):</b> створює ізольоване середовище (контейнер рівня ядра FreeBSD jail) з власним ім'ям хоста <code>lab1.local</code>, де в <code>ps aux</code> видно лише 2 процеси самого контейнера (прапорець <code>J</code> у статусі).<br>
-        <span class="fn-name">Рядок 22: pkg -v / pkg info / pkg rquery</span>
-        <b>Функція:</b> демонструє бінарний пакетний менеджер <code>pkg 2.8.4</code> (у FreeBSD 15 базова система також розбита на пакети — загалом 496 пакетів).
+        <span class="fn-name">Рядки 17–22 (FreeBSD):</span>
+        • <code>freebsd-version -kru</code> — перевіряє версію встановленого ядра (<code>-k</code>), працюючого ядра (<code>-r</code>) та оточення userland (<code>-u</code>);<br>
+        • <code>kldstat / kldload if_bridge</code> — виводить модулі монолітного ядра і динамічно підвантажує драйвер мережевого моста <code>if_bridge.ko</code>;<br>
+        • <code>zfs snapshot ...@lab1_snap</code> — миттєво створює Copy-on-Write знімок файлової системи ZFS;<br>
+        • <code>jail -c name=lab1 ...</code> — створює ізольований системний контейнер FreeBSD Jail із власним hostname та ізольованою таблицею процесів.
+      </div>
+    </div>
+
+    <div id="lab1-res" class="part-banner" data-sub="🖥 Розбір виводу в консолі">🖥 Частина 3. Послідовний розбір результатів: Ввели → Що вивело в консолі → Коментар і Висновок</div>
+
+    <!-- КРОК 1 РЕЗУЛЬТАТІВ ЛР1 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 1 у консолі</span> Перевірка версії ОС, ядра Darwin/XNU та апаратних ресурсів M1 Pro</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели (або виконав скрипт start_defense.sh):</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>sw_vers && uname -a && sysctl -n machdep.cpu.brand_string && sysctl hw.ncpu hw.memsize</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">ProductName:		macOS
+ProductVersion:		27.2
+BuildVersion:		26B123
+Darwin Tarass-MacBook-Pro.local 27.2.0 Darwin Kernel Version 27.2.0: root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64
+Apple M1 Pro
+hw.ncpu: 10
+hw.memsize: 17179869184</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• <code>ProductVersion: 27.2 (26B123)</code> — версія графічної комерційної ОС macOS;
+        <br>• <code>Darwin ... 27.2.0 ... root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64</code> — відкрита UNIX-основа системи має назву <b>Darwin</b>, а саме ядро — <b>XNU</b> (версія 13432), скомпільоване під кристал <code>T6000</code> (це кодове ім'я процесора <b>Apple M1 Pro</b>) та архітектуру <code>arm64</code>;
+        <br>• <code>hw.ncpu: 10</code> — ядро бачить 10 фізичних ядер гетерогенної архітектури ARM big.LITTLE (8 високопродуктивних Firestorm + 2 енергоефективних Icestorm);
+        <br>• <code>hw.memsize: 17179869184</code> — якщо поділити на $1024^3$, отримуємо рівно <b>16 ГБ</b> об'єднаної пам'яті (Unified Memory).
       </div>
       <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 17–22 (Рисунки 8–13 звіту) показані головні переваги серверної FreeBSD 15.1: динамічне завантаження модулів монолітного ядра через <code>kldload</code>, вбудована файлова система ZFS із контролем сум і миттєвими знімками <code>zfs snapshot</code>, а також легковагова ізоляція процесів на рівні ядра через механізм <code>jails</code>.»
+        <b>🎯 Висновок для викладача:</b> «Цей вивід доводить, що macOS має дворівневу структуру: зверху — пропрієтарне графічне середовище Aqua/Cocoa (macOS 27.2), а всередині — сертифікована UNIX-система Darwin 27.2.0 на базі гібридного ядра XNU, яке напряму керує гетерогенним 10-ядерним ARM64-процесором Apple M1 Pro.»
       </div>
     </div>
 
-    <div id="lab1-res" class="part-banner" data-sub="📊 Рисунки звіту">📊 Частина 3. Орієнтир по всіх рисунках і таблицях звіту ЛР 1</div>
-
+    <!-- КРОК 2 РЕЗУЛЬТАТІВ ЛР1 -->
     <div class="card card-result">
-      <div class="card-title"><span>🖼 Усі скріншоти і таблиці у твоєму звіті ЛР 1 (щоб миттєво знайти, якщо спитає)</span></div>
-      <ul>
-        <li><span class="fig-badge">Таблиця 1 (Стор. 3)</span> Теоретичне порівняння macOS та FreeBSD (походження від 4.4BSD, гібридне ядро XNU проти монолітного з модулями <code>kld</code>, ліцензія Proprietary/APSL проти 2-clause BSD, APFS проти ZFS/UFS2).</li>
-        <li><span class="fig-badge">Рис. 1–3 (Стор. 5–6)</span> <b>macOS:</b> Відомості про систему (<code>sw_vers</code>, <code>uname -a</code>, Apple M1 Pro, 16 ГБ), ядро XNU та процеси (<code>ps</code>, <code>kmutil</code>, <code>launchd PID 1</code>) і вікно «Моніторинг системи» (видно механізм <b>Compressed Memory</b> — стиснення неактивних сторінок у RAM).</li>
-        <li><span class="fig-badge">Рис. 4–5 (Стор. 6–7)</span> <b>macOS APFS:</b> Контейнер <code>disk3</code> у терміналі та в «Дисковій утиліті» — розділення на підписаний незмінний том <code>Macintosh HD</code> (sealed, read-only) та том даних <code>Data</code> зі спільним пулом вільного місця.</li>
-        <li><span class="fig-badge">Рис. 6–7 (Стор. 7–8)</span> <b>macOS Безпека:</b> Увімкнені SIP, Gatekeeper, FileVault, прапорець <code>restricted</code> на каталогах <code>/System</code> та графічні налаштування TCC (дозволи програмам на доступ до камери, мікрофона, файлів).</li>
-        <li><span class="fig-badge">Рис. 8–10 (Стор. 8–9)</span> <b>FreeBSD 15.1:</b> Вивід <code>fastfetch</code>, <code>freebsd-version -kru</code> та завантаження модуля ядра <code>kldload if_bridge</code> (з'являються <code>if_bridge.ko</code> та <code>bridgestp.ko</code>).</li>
-        <li><span class="fig-badge">Рис. 11–13 (Стор. 9–10)</span> <b>FreeBSD ZFS, Jails, pkg:</b> Стан пулу <code>zroot</code>, миттєвий знімок <code>@lab1_snap</code>, ізольований контейнер <code>jail</code> (видно лише 2 власні процеси з прапорцем <code>J</code>) та пакетний менеджер <code>pkg</code>.</li>
-        <li><span class="fig-badge">Таблиця 2 (Стор. 11)</span> Підсумкове порівняння за результатами практики + по 6 переваг і недоліків кожної ОС.</li>
-      </ul>
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 2 у консолі</span> Перевірка гібридного ядра XNU (Mach + BSD + IOKit) та першого процесу PID 1</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>ps -axco pid,user,%cpu,%mem,comm | head -6
+kmutil showloaded --list-only 2>/dev/null | awk '{print $1, $6, $7}' | head -6</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">  PID USER              %CPU %MEM COMM
+    1 root               0.8  0.1 launchd
+  535 root               1.4  0.1 logd
+  538 root               0.0  0.0 UserEventAgent
+  540 root               0.4  0.0 fseventsd
+3 com.apple.kpi.bsd (27.2.0)
+4 com.apple.kpi.dsep (27.2.0)
+5 com.apple.kpi.iokit (27.2.0)
+6 com.apple.kpi.libkern (27.2.0)
+7 com.apple.kpi.mach (27.2.0)</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• У першому рядку таблиці процесів <code>PID 1</code> належить процесу <b><code>launchd</code></b> (запущений від <code>root</code>) — це головний ініціалізуючий процес у macOS, який замінив класичний UNIX <code>init</code> і керує запуском усіх системних демонів (<code>logd</code>, <code>fseventsd</code>);
+        <br>• У виводі <code>kmutil</code> видно три ключові інтерфейси ядра (Kernel Programming Interfaces): <code>com.apple.kpi.mach</code>, <code>com.apple.kpi.bsd</code> та <code>com.apple.kpi.iokit</code>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Ми наочно бачимо, чому ядро XNU називається гібридним: у єдиному адресному просторі ядра одночасно працюють мікроядро <b>Mach</b> (планувальник потоків і віртуальна пам'ять), шар <b>BSD</b> (запозичений із FreeBSD: POSIX-виклики, сокети, права доступу) та підсистема <b>IOKit</b> для драйверів пристроїв. А у вікні Activity Monitor, яке відкрилося поруч, видно механізм <b>Compressed Memory</b> — замість повільного свопінгу на диск ядро XNU стискає неактивні сторінки прямо в оперативній пам'яті.»
+      </div>
     </div>
 
-    <div id="lab1-qa" class="part-banner" data-sub="❓ Питання">❓ Частина 4. Контрольні питання ЛР 1</div>
-    <div class="card card-qa">
-      <div class="q">1. Чим гібридне ядро XNU в macOS відрізняється від монолітного ядра FreeBSD?</div>
-      <div class="a">У XNU поєднано мікроядро <b>Mach</b> (планувальник потоків, віртуальна пам'ять, IPC), шар <b>BSD</b> (від FreeBSD: POSIX API, процеси, мережевий стек, VFS) та <b>IOKit</b> (драйвери на C++) в одному адресному просторі ядра (щоб уникнути втрат продуктивності чистих мікроядер). У FreeBSD ядро класичне монолітне, де всі підсистеми скомпільовані разом, а нові драйвери підвантажуються динамічно як модулі <code>kld</code> (<code>.ko</code>).</div>
-      <div class="q">2. У чому принципова різниця між APFS у macOS та ZFS у FreeBSD?</div>
-      <div class="a">Обидві використовують Copy-on-Write, спільний пул простору та миттєві знімки. Але <b>APFS</b> оптимізована під SSD/Flash-накопичувачі Apple, підтримує шифрування кожного файлу окремим ключем та криптографічне запечатування системного тому (SSV). А <b>ZFS</b> — це комбінована файлова система і менеджер логічних томів корпоративного класу з 256-бітними контрольними сумами кожного блоку і автоматичним самовідновленням (self-healing) у RAID-Z.</div>
+    <!-- КРОК 3 РЕЗУЛЬТАТІВ ЛР1 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 3 у консолі</span> Розмітка контейнера APFS, спільний пул простору та запечатаний системний том</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>diskutil list internal | head -18
+df -h / /System/Volumes/Data</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">/dev/disk3 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +494.4 GB   disk3
+   1:                APFS Volume Macintosh HD            13.8 GB    disk3s1
+   2:              APFS Snapshot com.apple.os.update-... 13.8 GB    disk3s1s1
+   3:                APFS Volume Preboot                 9.7 GB     disk3s2
+   4:                APFS Volume Recovery                1.5 GB     disk3s3
+   5:                APFS Volume Macintosh HD - Data     453.6 GB   disk3s5
+   6:                APFS Volume VM                      9.7 GB     disk3s6
+
+Filesystem        Size    Used   Avail Capacity  Mounted on
+/dev/disk3s1s1   460Gi    13Gi   5.5Gi    71%    /
+/dev/disk3s5     460Gi   422Gi   5.5Gi    99%    /System/Volumes/Data</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• У фізичному розділі <code>disk0s2</code> синтезовано єдиний контейнер <b><code>disk3</code> (494,4 ГБ)</b>, всередині якого живуть 5 логічних томів: системний <code>Macintosh HD</code> (13,8 ГБ), <code>Preboot</code>, <code>Recovery</code>, призначений для файлів користувача <code>Macintosh HD - Data</code> (453,6 ГБ) та том підкачки <code>VM</code> (9,7 ГБ);
+        <br>• У виводі <code>df -h</code> корінь <code>/</code> змонтовано навіть не з самого тому <code>disk3s1</code>, а з криптографічно підписаного незмінного знімка <b><code>/dev/disk3s1s1</code> (APFS Snapshot)</b> у режимі <b>read-only</b>!
+        <br>• Обидва томи мають однаковий стовпчик <code>Avail: 5.5Gi</code> та <code>Size: 460Gi</code> — вони не мають жорстких меж і динамічно ділять спільний вільний простір контейнера (технологія <b>APFS Space Sharing</b>).
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Тут видно ключову архітектурну особливість сучасної macOS: операційна система фізично відділена від даних користувача. Корінь <code>/</code> завантажується з read-only знімка <code>disk3s1s1</code> (Signed System Volume), тому жодна шкідлива програма чи помилка адміністратора не може пошкодити файли ОС, а всі програми та документи прозоро пишуться на том <code>/System/Volumes/Data</code>.»
+      </div>
+    </div>
+
+    <!-- КРОК 4 РЕЗУЛЬТАТІВ ЛР1 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 4 у консолі</span> Чотири рівні безпеки macOS (SIP, Gatekeeper, FileVault, прапорець restricted)</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>csrutil status && spctl --status && fdesetup status && ls -lO /System | head -5</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">System Integrity Protection status: enabled.
+assessments enabled
+FileVault is On.
+total 0
+drwxr-xr-x   51 root  wheel  restricted 1632 Oct 23 02:10 Applications
+drwxr-xr-x    6 root  wheel  restricted  192 Oct 23 02:10 Cryptexes
+drwxr-xr-x@   2 root  wheel  restricted   64 Oct 23 02:10 Developer
+drwxr-xr-x    5 root  wheel  restricted  160 Oct 23 02:10 DriverKit</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• <code>System Integrity Protection status: enabled</code> — активний захист цілісності системи (SIP) на рівні ядра;
+        <br>• <code>assessments enabled</code> — активний <b>Gatekeeper</b>, який перевіряє цифровий підпис та нотаризацію Apple перед запуском будь-якої завантаженої програми;
+        <br>• <code>FileVault is On</code> — весь SSD зашифровано апаратним двигуном AES-XTS у процесорі M1 Pro;
+        <br>• Слово <b><code>restricted</code></b> біля каталогів у <code>/System</code> — це спеціальний прапорець SIP, який забороняє зміну або видалення цих тек навіть користувачу <code>root</code> (через <code>sudo</code>).
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Порівняно з класичними UNIX-системами, де <code>root</code> має абсолютну владу, у macOS повноваження <code>root</code> обмежені механізмом SIP (прапорець <code>restricted</code>), а у FreeBSD аналогічну задачу виконують рівні безпеки ядра <code>kern.securelevel</code> та ізоляція у контейнерах <code>jails</code>.»
+      </div>
+    </div>
+
+    <!-- КРОК 5 РЕЗУЛЬТАТІВ ЛР1 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 5 (FreeBSD)</span> Результати у FreeBSD 15.1: модулі ядра kld, ZFS-снімок та ізоляція Jail</span></label>
+      </div>
+      <span class="sub-label">🖥 Що вивели команди у віртуальній машині FreeBSD 15.1:</span>
+      <div class="code-wrap"><pre class="console-out"># 1) kldstat до і після kldload if_bridge:
+Id Refs Address                Size Name
+ 1   11 0xffff000000000000  139e850 kernel
+ 2    1 0xffff00000139f000   5b9158 zfs.ko
+ 3    1 0xffff0000bc200000    29000 if_bridge.ko
+ 4    1 0xffff0000bc229000    24000 bridgestp.ko
+
+# 2) zfs snapshot zroot/ROOT/default@lab1_snap && zfs list -t snapshot:
+NAME                           USED  AVAIL  REFER  MOUNTPOINT
+zroot/ROOT/default@lab1_snap     0B      -  1.92G  -
+
+# 3) jail -c name=lab1 host.hostname=lab1.local path=/ command=/bin/sh -c "hostname && ps aux":
+lab1.local
+USER  PID %CPU %MEM   VSZ  RSS TT  STAT STARTED     TIME COMMAND
+root 1421  0.0  0.1 13968 3020  0  SJ   12:15   0:00.01 /bin/sh -c hostname && ps aux
+root 1423  0.0  0.1 14356 2912  0  R+J  12:15   0:00.00 ps aux</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• Після <code>kldload if_bridge</code> у списку модулів ядра з'явилися ID 3 (<code>if_bridge.ko</code>) і його залежність ID 4 (<code>bridgestp.ko</code> — протокол Spanning Tree), причому лічильник посилань ядра <code>Refs</code> зріс до 11;
+        <br>• Знімок ZFS <code>zroot/ROOT/default@lab1_snap</code> створено миттєво: він посилається на <code>REFER = 1.92G</code> даних кореневої ФС, але сам займає <b><code>USED = 0B</code></b> завдяки Copy-on-Write;
+        <br>• Всередині контейнера <code>jail</code> команда <code>ps aux</code> бачить <b>тільки 2 власні процеси</b> (PID 1421 і 1423) зі статусом <b><code>J</code> (Jailed)</b> і не бачить жодного процесу хостової FreeBSD!
+      </div>
+      <div class="say-box">
+        <b>🎯 Загальний висновок по ЛР 1 для викладача:</b> «Отже, порівняння показало: попри спільне походження від 4.4BSD, macOS еволюціонувала у максимально захищену клієнтську ОС для робочих станцій Apple (гібридне ядро XNU, незмінний системний том APFS, SIP), тоді як FreeBSD — це еталонна серверна ОС із монолітним ядром, найкращою нативною підтримкою ZFS і системою легких контейнерів Jails.»
+      </div>
     </div>
   </section>
 
@@ -598,110 +664,134 @@
     <div class="lab-header">
       <div class="badge">Лабораторна робота № 2 • VirtualBox 7.2.22 + Windows 11 ARM64</div>
       <h2>Встановлення і використання віртуальної машини VirtualBox</h2>
-      <p>Скрипт: start_defense.sh (рядки 82–115) • ВМ: Zahorskyi_Win • Звіт: 15 сторінок, Рисунки 1–15</p>
+      <p>Запуск на Mac: ./start_defense.sh 2 (рядки 82–115 скрипту) • ВМ: Zahorskyi_Win</p>
     </div>
 
-    <div id="lab2-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Інструкція для тебе (Як запустити і що показати)</div>
-
+    <div id="lab2-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Що ввести для запуску ЛР 2</div>
     <div class="card card-prep">
-      <div class="card-title"><span>📋 Покрокова шпаргалка дій для ЛР 2</span></div>
-      <ol>
-        <li><b>Автоматичний запуск (рекомендовано):</b> у <code>Terminal</code> на Mac виконай:
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 2</pre></div>
-          Скрипт відкриє PDF-звіт ЛР 2, папки <code>~/VirtualBox VMs/Zahorskyi_Win</code>, <code>~/VirtualBox VMs/Export</code> (де лежить <code>Zahorskyi_Win.ova</code> на 5,9 ГБ) і <code>lab2/Спільна_тека</code>, виведе в термінал усі параметри ВМ і запустить саму ВМ <code>Zahorskyi_Win</code> у VirtualBox!
-        </li>
-        <li><b>Якщо викладач попросить показати спільну теку всередині Windows 11:</b>
-          <br>У вікні Windows натисни <code>Win + R</code> → введи <code>cmd</code> → введи:
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>dir Z:\
-type Z:\host_to_guest.txt</pre></div>
-        </li>
-      </ol>
+      <div class="card-title"><span>📋 Запусти в Terminal на Mac:</span></div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 2</pre></div>
+      <p>Скрипт виведе в термінал конфігурацію ВМ <code>Zahorskyi_Win</code>, параметри динамічного VDI-диска, дерево знімка <code>Lab2_snapshot</code>, вміст спільної теки та запустить саму Windows 11 у вікні VirtualBox.</p>
     </div>
 
-    <div class="card card-context">
-      <div class="card-title"><span>🗣 Вступне слово викладачу (Контекст ЛР 2)</span></div>
-      <p>«У другій лабораторній роботі досліджено гіпервізор II типу <b>Oracle VirtualBox 7.2.22</b> на хостовій платформі Apple Silicon (M1 Pro, ARM64). Оскільки процесор хоста має архітектуру ARM64 і гіпервізор використовує апаратну віртуалізацію <code>Apple Hypervisor.framework</code> без програмної емуляції x86, як гостьову ОС встановлено <b>Windows 11 ARM64</b> у віртуальну машину <code>Zahorskyi_Win</code> (4 ГБ ОЗП, 4 ядра ЦП, EFI, динамічний диск VDI на 32 ГБ). Виконано встановлення Guest Additions, налаштування двостороннього буфера обміну, спільної теки <code>Z:\</code>, створення знімка <code>Lab2_snapshot</code> та експорт ВМ у формат <code>Zahorskyi_Win.ova</code>.»</p>
-    </div>
+    <div id="lab2-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір команд VBoxManage з номерами рядків</div>
 
-    <div id="lab2-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір команд VBoxManage та гостьової ОС</div>
-
-    <!-- БЛОК 1 ЛР2 -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 91–94) • Рис. 1–5 (стор. 3–6)</span> Блок 1 (Рядки 01–07): Створення, налаштування та перевірка конфігурації ВМ Zahorskyi_Win</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 92–109)</span> Команди керування гіпервізором VirtualBox та диском VDI</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
         <pre>01 | VBoxManage --version
-02 | VBoxManage createvm --name "Zahorskyi_Win" --ostype "Windows11_arm64" --register
-03 | VBoxManage modifyvm "Zahorskyi_Win" --memory 4096 --cpus 4 --vram 128 --firmware efi
-04 | VBoxManage modifyvm "Zahorskyi_Win" --clipboard bidirectional --draganddrop bidirectional --nic1 nat
-05 | VBoxManage createmedium disk --filename "Zahorskyi_Win.vdi" --size 32768 --format VDI --variant Standard
-06 | VBoxManage showvminfo "Zahorskyi_Win" --machinereadable | grep -E "ostype=|memory=|cpus=|vram=|Firmware=|clipboard=|SharedFolder"</pre>
+02 | VBoxManage showvminfo "Zahorskyi_Win" --machinereadable | grep -E "ostype=|memory=|cpus=|vram=|clipboard=|draganddrop=|nic1=|SharedFolder"
+03 | ls -lh "$HOME/VirtualBox VMs/Zahorskyi_Win"
+04 | ls -lh "$HOME/VirtualBox VMs/Zahorskyi_Win/Snapshots"
+05 | ls -lh "$HOME/VirtualBox VMs/Export"
+06 | VBoxManage showmediuminfo disk "$HOME/VirtualBox VMs/Zahorskyi_Win/Zahorskyi_Win.vdi"
+07 | VBoxManage snapshot "Zahorskyi_Win" list
+08 | ls -la "/Users/taras/Desktop/unik/Operation Systme/lab2/Спільна_тека"
+09 | VBoxManage startvm "Zahorskyi_Win" --type gui</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядок 02: VBoxManage createvm --name "Zahorskyi_Win" --ostype "Windows11_arm64" --register</span>
-        <b>Функція:</b> створює XML-конфігурацію віртуальної машини <code>Zahorskyi_Win.vbox</code> і реєструє її у списку гіпервізора VirtualBox.<br>
-        <span class="fn-name">Рядки 03–04: VBoxManage modifyvm ...</span>
-        <b>Параметри:</b> <code>--memory 4096</code> (виділяє 4 ГБ RAM з 16 ГБ хоста), <code>--cpus 4</code> (4 віртуальні ядра з 10 ядер M1 Pro), <code>--vram 128</code> (128 МБ відеопам'яті для графічного адаптера VBoxSVGA), <code>--firmware efi</code> (обов'язковий UEFI-завантажувач для Windows 11 ARM64), <code>--clipboard bidirectional</code> та <code>--draganddrop bidirectional</code> (двосторонній буфер обміну та перетягування файлів між macOS і Windows), <code>--nic1 nat</code> (мережевий режим NAT для доступу до інтернету через IP хоста).<br>
-        <span class="fn-name">Рядок 05: VBoxManage createmedium disk ... --size 32768 --format VDI --variant Standard</span>
-        <b>Параметри:</b> створює віртуальний диск формату VDI (VirtualBox Disk Image) максимальною ємністю <code>32768 МБ</code> (32 ГБ), а <code>--variant Standard</code> задає <b>динамічний</b> тип диска (файл росте на SSD лише в міру реального запису блоків).<br>
-        <span class="fn-name">Рядок 06: VBoxManage showvminfo "Zahorskyi_Win" --machinereadable</span>
-        <b>Параметр <code>--machinereadable</code>:</b> виводить усі налаштування ВМ у форматі <code>ключ="значення"</code> для швидкої перевірки у терміналі.
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У першому блоці (рядки 01–06, Рисунок 5 звіту) показано налаштування віртуальної машини <code>Zahorskyi_Win</code> через CLI-інтерфейс <code>VBoxManage</code>. Ми виділили 4096 МБ оперативної пам'яті (25% від 16 ГБ хоста) і 4 ядра ЦП, увімкнули прошивку EFI та створили динамічний VDI-диск на 32 ГБ, який фактично займає на диску Mac лише 10,7 ГБ.»
+        <span class="fn-name">Рядок 02: VBoxManage showvminfo "Zahorskyi_Win" --machinereadable</span>
+        <b>Функція:</b> виводить XML-параметри віртуальної машини з файлу <code>Zahorskyi_Win.vbox</code> у форматі <code>ключ=значення</code> (тип ОС, обсяг ОЗП, ядра ЦП, режим мережі, буфер обміну та мапінг спільної теки).<br>
+        <span class="fn-name">Рядок 06: VBoxManage showmediuminfo disk .../Zahorskyi_Win.vdi</span>
+        <b>Функція:</b> читає заголовок віртуального диска VDI та виводить його UUID, логічну ємність (<code>Capacity</code>), фактично зайнятий розмір на SSD хоста (<code>Size on disk</code>) та прив'язані дочірні різницеві диски знімків (<code>Child UUIDs</code>).<br>
+        <span class="fn-name">Рядки 07, 09: VBoxManage snapshot list та startvm --type gui</span>
+        <b>Функція:</b> виводить дерево знімків стану (Snapshots) із позначкою поточного стану <code>*</code> і запускає ВМ у графічному вікні (<code>--type gui</code>).
       </div>
     </div>
 
-    <!-- БЛОК 2 ЛР2 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 95–110) • Рис. 8–15 (стор. 7–12)</span> Блок 2 (Рядки 07–14): Спільна тека, Guest Additions, знімок Lab2_snapshot та експорт в OVA</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>07 | VBoxManage sharedfolder add "Zahorskyi_Win" --name "Спільна_тека" --hostpath "$WORKSPACE/lab2/Спільна_тека" --automount --auto-mount-point "Z:"
-08 | # Усередині Windows 11 (cmd.exe):
-09 | systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
-10 | echo Привіт з гостьової Windows 11 у спільну теку на macOS! > Z:\guest_to_host.txt && dir Z:\
-11 | # На хості macOS (перевірка диску, знімків та експорт у OVA):
-12 | VBoxManage showmediuminfo disk "$HOME/VirtualBox VMs/Zahorskyi_Win/Zahorskyi_Win.vdi"
-13 | VBoxManage snapshot "Zahorskyi_Win" take "Lab2_snapshot" --description "Чиста система після налаштування"
-14 | VBoxManage snapshot "Zahorskyi_Win" list
-15 | VBoxManage export "Zahorskyi_Win" --output "$HOME/VirtualBox VMs/Export/Zahorskyi_Win.ova" --ovf20</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядок 07: VBoxManage sharedfolder add ... --automount --auto-mount-point "Z:"</span>
-        <b>Функція:</b> підключає каталог хоста <code>lab2/Спільна_тека</code> до ВМ і завдяки драйверу Guest Additions автоматично монтує його у Windows 11 як мережевий диск <code>Z:</code>.<br>
-        <span class="fn-name">Рядки 12–14: showmediuminfo disk та snapshot take / list</span>
-        <b>Функція:</b> <code>showmediuminfo</code> показує логічну ємність <code>Capacity: 32768 MBytes</code> та реальний розмір <code>Size on disk: 10942 MBytes</code>. Команда <code>snapshot take</code> фіксує стан ВМ у знімок <code>Lab2_snapshot</code>, після чого всі нові зміни пишуться у різницевий (differencing) VDI-файл у папці <code>Snapshots/</code>.<br>
-        <span class="fn-name">Рядок 15: VBoxManage export ... -o Zahorskyi_Win.ova --ovf20</span>
-        <b>Функція:</b> пакує відкритий стандарт OVF 2.0 (XML-опис обладнання <code>.ovf</code> + стиснений образ диска <code>.vmdk</code> + маніфест контрольних сум SHA-256 <code>.mf</code>) в один TAR-архів <code>Zahorskyi_Win.ova</code> (5,9 ГБ).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 07–15 (Рисунки 8–15 звіту) показано інтеграцію між хостом macOS та гостьовою Windows 11: автоматичне монтування спільної теки на диск <code>Z:</code>, створення знімка <code>Lab2_snapshot</code> на основі різницевого VDI-образу та експорт віртуальної машини в єдиний переносимий архів стандарту OVF 2.0 — <code>Zahorskyi_Win.ova</code> розміром 5,9 ГБ.»
-      </div>
-    </div>
+    <div id="lab2-res" class="part-banner" data-sub="🖥 Розбір виводу в консолі">🖥 Частина 3. Послідовний розбір результатів у консолі (ЛР 2)</div>
 
-    <div id="lab2-res" class="part-banner" data-sub="📊 Рисунки звіту">📊 Частина 3. Орієнтир по всіх рисунках звіту ЛР 2</div>
-
+    <!-- КРОК 1 РЕЗУЛЬТАТІВ ЛР2 -->
     <div class="card card-result">
-      <div class="card-title"><span>🖼 Усі скріншоти у звіті ЛР 2 (Стор. 3–12)</span></div>
-      <ul>
-        <li><span class="fig-badge">Рис. 1–4 (Стор. 3–5)</span> Менеджер VirtualBox 7.2.22 на macOS, вікно створення ВМ <code>Zahorskyi_Win</code>, виділення 4096 МБ ОЗП та 4 ядер ЦП, створення динамічного диска <code>Zahorskyi_Win.vdi</code> на 32 ГБ.</li>
-        <li><span class="fig-badge">Рис. 5–7 (Стор. 6–7)</span> Перевірка конфігурації через <code>VBoxManage showvminfo</code>, завантажений робочий стіл Windows 11 ARM64 та вікно підключення образу <code>VBoxGuestAdditions.iso</code>.</li>
-        <li><span class="fig-badge">Рис. 8–10 (Стор. 8–9)</span> Встановлення Guest Additions для ARM64, перевірка двостороннього буфера обміну та обмін файлами <code>host_to_guest.txt</code> і <code>guest_to_host.txt</code> через спільний диск <code>Z:\</code>.</li>
-        <li><span class="fig-badge">Рис. 11–15 (Стор. 9–12)</span> Вимкнення ВМ (АКПІ Завершення роботи vs Зберегти стан), супровідні файли у папці <code>~/VirtualBox VMs/Zahorskyi_Win</code> (<code>.vbox</code>, <code>.vdi</code>, <code>.nvram</code>, <code>Snapshots</code>, <code>Logs</code>), дерево знімка <code>Lab2_snapshot</code> та експортований файл <code>Zahorskyi_Win.ova</code> (5,9 ГБ).</li>
-      </ul>
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 1 у консолі</span> Перевірка параметрів віртуальної машини Zahorskyi_Win</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>VBoxManage --version
+VBoxManage showvminfo 'Zahorskyi_Win' --machinereadable | grep -E 'ostype=|memory=|cpus=|vram=|clipboard=|draganddrop=|nic1=|SharedFolder'</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">7.2.22r175245
+ostype="Windows 11 on ARM (64-bit)"
+memory=4096
+vram=128
+cpus=4
+nic1="nat"
+clipboard="bidirectional"
+draganddrop="bidirectional"
+SharedFolderNameMachineMapping1="Спільна_тека"
+SharedFolderPathMachineMapping1="/Users/taras/Desktop/unik/Operation Systme/lab2/Спільна_тека"</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• <code>7.2.22r175245</code> — версія гіпервізора II типу Oracle VirtualBox для Apple Silicon;
+        <br>• <code>ostype="Windows 11 on ARM (64-bit)"</code> — архітектура гостьової ОС збігається з ARM64-процесором M1 Pro, тому код виконується нативно через апаратну віртуалізацію <code>Apple Hypervisor.framework</code> без повільної програмної емуляції інструкцій;
+        <br>• <code>memory=4096</code> та <code>cpus=4</code> — виділено 4 ГБ RAM (25% від 16 ГБ хоста) і 4 віртуальні ядра з 10 фізичних, щоб не викликати деградації хостової macOS;
+        <br>• <code>clipboard="bidirectional"</code> і <code>SharedFolder...</code> — активовані функції Guest Additions: двосторонній буфер обміну, Drag-and-Drop та спільний каталог <code>Спільна_тека</code>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Конфігурація демонструє правильний розподіл апаратних ресурсів хоста для гіпервізора II типу: гостьова Windows 11 ARM64 отримала достатньо ресурсів для плавної роботи (4 ГБ ОЗП і 4 ядра), працює з нативною швидкодією ARM-віртуалізації та інтегрована з хостом через Guest Additions.»
+      </div>
     </div>
 
-    <div id="lab2-qa" class="part-banner" data-sub="❓ Питання">❓ Частина 4. Контрольні питання ЛР 2</div>
-    <div class="card card-qa">
-      <div class="q">1. У чому різниця між гіпервізорами I та II типу? До якого належить VirtualBox?</div>
-      <div class="a">Гіпервізор <b>I типу (bare-metal)</b> встановлюється безпосередньо на апаратне забезпечення без хостової ОС (VMware ESXi, Microsoft Hyper-V, Proxmox/KVM, Xen). Гіпервізор <b>II типу (hosted)</b> працює як звичайний застосунок поверх хостової ОС (Oracle VirtualBox, VMware Fusion/Workstation, Parallels Desktop) і звертається до апаратної віртуалізації процесора через системний API хоста (на macOS — <code>Hypervisor.framework</code>).</div>
-      <div class="q">2. Як працює механізм знімків (Snapshots) у VirtualBox на рівні файлів?</div>
-      <div class="a">У момент створення знімка базовий образ диска <code>Zahorskyi_Win.vdi</code> заморожується і переводиться в режим «лише для читання» (read-only). У підкаталозі <code>Snapshots/</code> створюється новий різницевий (differencing) VDI-файл, куди записуються тільки змінені після знімка сектори, а також файл <code>.sav</code> (якщо знімок робився на увімкненій ВМ — туди скидається вміст RAM і регістрів ЦП).</div>
+    <!-- КРОК 2 РЕЗУЛЬТАТІВ ЛР2 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 2 у консолі</span> Дослідження динамічного VDI-диска, знімка Lab2_snapshot та OVA-архіву</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>VBoxManage showmediuminfo disk "$HOME/VirtualBox VMs/Zahorskyi_Win/Zahorskyi_Win.vdi" | grep -E 'UUID|Type|Storage format|Capacity|Size on disk'
+VBoxManage snapshot 'Zahorskyi_Win' list
+ls -lh "$HOME/VirtualBox VMs/Export"</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">UUID:           b0abf3c7-0d90-4b89-b285-cf81174d5e8a
+Parent UUID:    base
+Type:           normal (base)
+Storage format: VDI
+Capacity:       65536 MBytes
+Size on disk:   14997 MBytes
+Child UUIDs:    cfc92779-7cdf-4429-894b-a49f87c6280b
+   Name: Lab2_snapshot (UUID: f1cb80c8-015d-455c-a476-2b9cc5f4e7b1) *
+   Description: Windows 11 + Guest Additions
+-rw-------  1 taras  staff   5.9G Oct 28 05:52 Zahorskyi_Win.ova</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• <code>Capacity: 65536 MBytes</code> проти <code>Size on disk: 14997 MBytes</code> — віртуальний диск має максимальний логічний обсяг 64 ГБ, але оскільки він <b>динамічний (Standard VDI)</b>, реально на SSD ноутбука він займає лише <b>14,6 ГБ</b> (заощаджено майже 50 ГБ фізичного місця!);
+        <br>• Наявність <code>Child UUIDs: cfc92779...</code> і рядок <code>Name: Lab2_snapshot *</code> означають, що базовий образ <code>Zahorskyi_Win.vdi</code> заморожений у точці створення знімка, а всі поточні зміни пишуться у дочірній різницевий файл у папці <code>Snapshots/</code>;
+        <br>• Файл <code>Zahorskyi_Win.ova</code> має розмір <b><code>5.9G</code></b> — при експорті у формат OVF/OVA віртуальний диск додатково стискається у потоковий формат VMDK, тому архів важить у 2,5 раза менше за VDI-файл.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Цей результат наочно показує перевагу віртуалізації: динамічний VDI-диск виділяє сектори на фізичному носії лише при фактичному записі, механізм знімків (Snapshots) дозволяє за секунду відкотити ОС до еталонного стану через різницевий диск, а OVA-архів стискає всю налаштовану машину до 5,9 ГБ для перенесення на інший комп'ютер.»
+      </div>
+    </div>
+
+    <!-- КРОК 3 РЕЗУЛЬТАТІВ ЛР2 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 3 у консолі</span> Перевірка двостороннього обміну через спільну теку (macOS ↔ Windows Z:\)</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>ls -la "/Users/taras/Desktop/unik/Operation Systme/lab2/Спільна_тека"</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">total 24
+drwxr-xr-x@ 5 taras  staff   160 Nov 10 14:20 .
+-rw-r--r--@ 1 taras  staff    83 Oct 28 05:31 guest_to_host.txt
+-rw-r--r--@ 1 taras  staff    76 Oct 28 05:30 host_to_guest.txt
+-rw-r--r--  1 taras  staff  2298 Nov 10 14:20 run_lab5_auto.bat</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• У каталозі хоста одночасно лежать файл <code>host_to_guest.txt</code> (створений у macOS і прочитаний у Windows на диску <code>Z:\</code>), файл <code>guest_to_host.txt</code> (створений у командному рядку Windows 11 і миттєво видимий у Finder на Mac) та наш скрипт <code>run_lab5_auto.bat</code>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Завдяки драйверу <code>VBoxSF</code> зі складу Guest Additions спільна тека працює синхронно без копіювання по мережі: будь-який файл, збережений на хості macOS, тієї ж миті доступний у гостьовій Windows 11 на змонтованому диску <code>Z:\</code>, і навпаки.»
+      </div>
     </div>
   </section>
 
@@ -712,96 +802,106 @@ type Z:\host_to_guest.txt</pre></div>
     <div class="lab-header">
       <div class="badge">Лабораторна робота № 3 • VirtualBox 7.2.22 + Ubuntu 24.04.5 LTS ARM64</div>
       <h2>Розгортання та адміністрування гостьової ОС Linux (Ubuntu) у VirtualBox</h2>
-      <p>Скрипт: start_defense.sh (рядки 120–149) • ВМ: Zahorskyi_Ubuntu • Звіт: 11 сторінок, Рисунки 1–15</p>
+      <p>Запуск на Mac: ./start_defense.sh 3 (рядки 120–149 скрипту) • ВМ: Zahorskyi_Ubuntu</p>
     </div>
 
-    <div id="lab3-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Інструкція для тебе (Як запустити і що показати)</div>
-
+    <div id="lab3-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Що ввести для запуску ЛР 3</div>
     <div class="card card-prep">
-      <div class="card-title"><span>📋 Покрокова шпаргалка дій для ЛР 3</span></div>
-      <ol>
-        <li><b>Автоматичний запуск (рекомендовано):</b> у <code>Terminal</code> на Mac виконай:
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 3</pre></div>
-          Скрипт відкриє PDF-звіт ЛР 3, папки <code>~/VirtualBox VMs/Zahorskyi_Ubuntu</code>, <code>~/VMs/oslabs/export</code> (з <code>Zahorskyi_Ubuntu.ova</code>) і спільну теку <code>~/VMs/oslabs/lab3_shared</code>, а в терміналі виведе конфігурацію ВМ, список знімків та вміст обох тестових файлів обміну!
-        </li>
-        <li><b>Якщо потрібно запустити саму Ubuntu у вікні:</b>
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>VBoxManage startvm "Zahorskyi_Ubuntu" --type gui</pre></div>
-        </li>
-      </ol>
+      <div class="card-title"><span>📋 Запусти в Terminal на Mac:</span></div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 3</pre></div>
+      <p>Скрипт виведе в термінал конфігурацію ВМ <code>Zahorskyi_Ubuntu</code>, список файлів і знімка <code>Після налаштування</code>, розмір експортованого <code>Zahorskyi_Ubuntu.ova</code> та вміст файлів обміну у спільній теці <code>lab3_shared</code>.</p>
     </div>
 
-    <div class="card card-context">
-      <div class="card-title"><span>🗣 Вступне слово викладачу (Контекст ЛР 3)</span></div>
-      <p>«У третій лабораторній роботі у VirtualBox створено та налаштовано віртуальну машину <code>Zahorskyi_Ubuntu</code> з гостьовою ОС <b>Ubuntu 24.04.5 LTS (Noble Numbat) ARM64</b> (ядро Linux 6.8, робоче середовище GNOME, 4 ГБ ОЗП, 4 ядра ЦП, динамічний VDI-диск на 25 ГБ з файловою системою <code>ext4</code>). Головна технічна відмінність від Windows полягає в тому, що в Linux гостьові доповнення VirtualBox компілюються з вихідних текстів під поточне ядро (модулі <code>vboxguest</code> і <code>vboxsf</code>), а доступ без <code>sudo</code> до автоматично змонтованої спільної теки <code>/media/sf_lab3_shared</code> надається через включення користувача до системної групи <code>vboxsf</code>.»</p>
-    </div>
+    <div id="lab3-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір команд Linux та VBoxManage</div>
 
-    <div id="lab3-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір команд Linux та VBoxManage (ЛР 3)</div>
-
-    <!-- БЛОК 1 ЛР3 -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">Команди в терміналі Ubuntu • Рис. 6–10 (стор. 5–7)</span> Блок 1 (Рядки 01–08): Дослідження Ubuntu, збирання модулів ядра Guest Additions та монтування vboxsf</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">Команди в Ubuntu + start_defense.sh (рядки 130–142)</span> Збирання модулів ядра Guest Additions у Linux та перевірка ВМ</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>01 | uname -a && lsb_release -a
-02 | lscpu | grep -E "Architecture|Model name|CPU\(s\)" && free -h && df -hT /
-03 | sudo apt update && sudo apt install -y build-essential dkms linux-headers-$(uname -r)
-04 | sudo sh /media/taras/VBox_GAs_7.2.22/VBoxLinuxAdditions.run
-05 | lsmod | grep vbox && systemctl status vboxadd-service
-06 | sudo usermod -aG vboxsf $USER
-07 | sudo mount -t vboxsf -o uid=$(id -u),gid=$(id -g) lab3_shared /mnt/shared
-08 | echo "Привіт з гостьової Ubuntu 24.04!" > /media/sf_lab3_shared/from_guest_ubuntu.txt && ls -la /media/sf_lab3_shared</pre>
+        <pre>01 | uname -a && lsb_release -a && df -hT /
+02 | sudo apt update && sudo apt install -y build-essential dkms linux-headers-$(uname -r)
+03 | sudo sh /media/taras/VBox_GAs_7.2.22/VBoxLinuxAdditions.run
+04 | lsmod | grep vbox
+05 | sudo usermod -aG vboxsf $USER
+06 | VBoxManage showvminfo "Zahorskyi_Ubuntu" --machinereadable | grep -E "ostype=|memory=|cpus=|vram=|clipboard=|SharedFolder"
+07 | VBoxManage snapshot "Zahorskyi_Ubuntu" list
+08 | cat "$HOME/VMs/oslabs/lab3_shared/from_host_macOS.txt" && cat "$HOME/VMs/oslabs/lab3_shared/from_guest_ubuntu.txt"</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядки 01–02: uname -a / lsb_release -a / lscpu / free -h / df -hT /</span>
-        <b>Функція:</b> виводить версію ядра <code>Linux 6.8.0-generic aarch64</code>, дистрибутив <code>Ubuntu 24.04.5 LTS</code>, 4 ядра ARM64, 3,8 GiB оперативної пам'яті та кореневу файлову систему типу <code>ext4</code> (прапорець <code>-T</code> у <code>df</code> показує тип ФС).<br>
-        <span class="fn-name">Рядки 03–04: apt install build-essential dkms linux-headers-$(uname -r) + VBoxLinuxAdditions.run</span>
-        <b>Функція:</b> встановлює компілятор GCC, систему <b>DKMS</b> (Dynamic Kernel Module Support — автоматично перезбирає модулі при оновленні ядра) і заголовки поточного ядра Linux, після чого скрипт <code>VBoxLinuxAdditions.run</code> компілює і завантажує в ядро модулі <code>vboxguest.ko</code> та <code>vboxsf.ko</code>.<br>
-        <span class="fn-name">Рядок 06: sudo usermod -aG vboxsf $USER</span>
-        <b>Параметри:</b> <code>-a</code> (append — додати, не затираючи інші групи), <code>-G vboxsf</code> (ім'я групи). Додає користувача <code>taras</code> до групи <code>vboxsf</code>, бо каталог <code>/media/sf_lab3_shared</code> монтується з правами <code>drwxrwx--- root:vboxsf</code>.<br>
-        <span class="fn-name">Рядок 07: sudo mount -t vboxsf -o uid=$(id -u),gid=$(id -g) lab3_shared /mnt/shared</span>
-        <b>Параметри:</b> <code>-t vboxsf</code> (тип драйвера файлової системи VirtualBox Shared Folder), <code>-o uid=...,gid=...</code> (призначає власником змонтованих файлів поточного користувача).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 01–08 (Рисунки 6–10 звіту) показано роботу всередині гостьової Ubuntu 24.04. Щоб запрацювали спільний буфер обміну, авто-масштабування екрана і спільна тека, ми встановили заголовки ядра <code>linux-headers</code> і DKMS та зібрали модуль ядра <code>vboxsf</code>. Командою <code>usermod -aG vboxsf</code> ми додали користувача до групи доступу до спільної теки <code>/media/sf_lab3_shared</code>.»
+        <span class="fn-name">Рядки 02–05 (Особливість Guest Additions у Linux):</span>
+        • На відміну від Windows, де драйвери постачаються готовими <code>.sys</code>-файлами, у Linux скрипт <code>VBoxLinuxAdditions.run</code> компілює модулі ядра <code>vboxguest.ko</code> і <code>vboxsf.ko</code> з C-вихідників за допомогою <code>gcc</code>, <code>linux-headers-$(uname -r)</code> та системи <code>dkms</code>;<br>
+        • <code>sudo usermod -aG vboxsf $USER</code> — додає користувача до групи <code>vboxsf</code>, бо автоматично змонтована спільна тека <code>/media/sf_lab3_shared</code> має групу володіння <code>vboxsf</code> і закрита для сторонніх користувачів.
       </div>
     </div>
 
-    <!-- БЛОК 2 ЛР3 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">start_defense.sh (рядки 130–142) • Рис. 11–15 (стор. 8–10)</span> Блок 2 (Рядки 09–14): Перевірка файлів ВМ, знімка «Після налаштування» та OVA на хості macOS</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>09 | VBoxManage showvminfo "Zahorskyi_Ubuntu" --machinereadable | grep -E "ostype=|memory=|cpus=|vram=|Firmware=|SharedFolder"
-10 | ls -lh "$HOME/VirtualBox VMs/Zahorskyi_Ubuntu"
-11 | ls -lh "$HOME/VirtualBox VMs/Zahorskyi_Ubuntu/Snapshots"
-12 | VBoxManage snapshot "Zahorskyi_Ubuntu" list
-13 | ls -lh "$HOME/VMs/oslabs/export/Zahorskyi_Ubuntu.ova"
-14 | cat "$HOME/VMs/oslabs/lab3_shared/from_host_macOS.txt" && cat "$HOME/VMs/oslabs/lab3_shared/from_guest_ubuntu.txt"</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядки 10–12: ls -lh .../Zahorskyi_Ubuntu та VBoxManage snapshot list</span>
-        <b>Функція:</b> показує файли ВМ (конфігурація <code>Zahorskyi_Ubuntu.vbox</code>, базовий образ <code>Zahorskyi_Ubuntu.vdi</code>, енергонезалежна пам'ять UEFI <code>Zahorskyi_Ubuntu.nvram</code>) та створений знімок <code>Після налаштування</code>.<br>
-        <span class="fn-name">Рядки 13–14: Перевірка OVA-архіву та файлів у lab3_shared</span>
-        <b>Функція:</b> підтверджує наявність експортованого архіву <code>Zahorskyi_Ubuntu.ova</code> та виводить вміст обох файлів обміну між macOS і Ubuntu.
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 09–14 (Рисунки 11–15 звіту) ми з хостового терміналу macOS перевіряємо створений знімок ВМ під назвою <code>Після налаштування</code>, файли у папці віртуальної машини, експортований OVA-архів та вміст спільної теки <code>lab3_shared</code>.»
-      </div>
-    </div>
+    <div id="lab3-res" class="part-banner" data-sub="🖥 Розбір виводу в консолі">🖥 Частина 3. Послідовний розбір результатів у консолі (ЛР 3)</div>
 
-    <div id="lab3-res" class="part-banner" data-sub="📊 Рисунки звіту">📊 Частина 3. Орієнтир по всіх рисунках звіту ЛР 3</div>
+    <!-- КРОК 1 РЕЗУЛЬТАТІВ ЛР3 -->
     <div class="card card-result">
-      <div class="card-title"><span>🖼 Усі скріншоти у звіті ЛР 3 (Стор. 3–10)</span></div>
-      <ul>
-        <li><span class="fig-badge">Рис. 1–5 (Стор. 3–5)</span> Створення ВМ <code>Zahorskyi_Ubuntu</code> (тип Linux / Ubuntu ARM 64-bit), виділення 4096 МБ ОЗП, 4 ядер ЦП, динамічного VDI на 25 ГБ та підключення ISO-образу <code>ubuntu-24.04.5-desktop-arm64.iso</code>.</li>
-        <li><span class="fig-badge">Рис. 6–8 (Стор. 5–6)</span> Робочий стіл Ubuntu 24.04 LTS, вивід <code>uname -a</code>, <code>lscpu</code>, <code>free -h</code>, <code>df -hT</code> та процес компіляції модуля ядра у <code>VBoxLinuxAdditions.run</code>.</li>
-        <li><span class="fig-badge">Рис. 9–10 (Стор. 7)</span> Налаштування спільної теки <code>lab3_shared</code>, додавання користувача до групи <code>vboxsf</code> та перевірка файлів <code>from_host_macOS.txt</code> і <code>from_guest_ubuntu.txt</code>.</li>
-        <li><span class="fig-badge">Рис. 11–15 (Стор. 8–10)</span> Діалог вимкнення ВМ, структура каталогів <code>~/VirtualBox VMs/Zahorskyi_Ubuntu</code>, дерево знімків (знімок «Після налаштування») та експортований <code>Zahorskyi_Ubuntu.ova</code>.</li>
-      </ul>
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 1 у консолі</span> Конфігурація ВМ Zahorskyi_Ubuntu та перевірка знімка стану</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>VBoxManage showvminfo 'Zahorskyi_Ubuntu' --machinereadable | grep -E 'ostype=|memory=|cpus=|vram=|clipboard=|draganddrop=|SharedFolder'
+VBoxManage snapshot 'Zahorskyi_Ubuntu' list</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">ostype="Ubuntu 24.04 LTS (Noble Numbat) (ARM 64-bit)"
+memory=4096
+vram=128
+cpus=4
+clipboard="bidirectional"
+draganddrop="bidirectional"
+SharedFolderNameMachineMapping1="lab3_shared"
+SharedFolderPathMachineMapping1="/Users/taras/VMs/oslabs/lab3_shared"
+   Name: Після налаштування (UUID: 332474d3-9c2b-44cc-9c3e-ddf18a30df13) *
+   Description: Ubuntu 24.04.5 встановлено, гостьові доповнення 7.2.22, буфер обміну, спільна тека, USB-накопичувач</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• Гостьова система — <b>Ubuntu 24.04 LTS (Noble Numbat) ARM 64-bit</b> із виділеними 4096 МБ ОЗП, 4 ядрами ЦП та 128 МБ відеопам'яті;
+        <br>• Підключено спільний каталог <code>lab3_shared</code> (автоматично монтується в Ubuntu за шляхом <code>/media/sf_lab3_shared</code>);
+        <br>• Зафіксовано контрольний знімок стану <b><code>Після налаштування</code></b> (зірочка <code>*</code> показує, що машина перебуває саме на цьому знімку).
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Віртуальна машина Ubuntu 24.04 ARM64 працює поверх того ж гіпервізора VirtualBox, що й Windows 11, але використовує журнальовану файлову систему <code>ext4</code> і значно економніше споживає оперативну пам'ять у стані спокою (~900 МБ у GNOME проти ~2,1 ГБ у Windows 11).»
+      </div>
+    </div>
+
+    <!-- КРОК 2 РЕЗУЛЬТАТІВ ЛР3 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 2 у консолі</span> Супровідні файли ВМ, OVA-архів та обмін файлами у спільній теці lab3_shared</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>ls -lh "$HOME/VirtualBox VMs/Zahorskyi_Ubuntu" "$HOME/VMs/oslabs/export"
+cat "$HOME/VMs/oslabs/lab3_shared/from_host_macOS.txt"
+cat "$HOME/VMs/oslabs/lab3_shared/from_guest_ubuntu.txt"</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">/Users/taras/VirtualBox VMs/Zahorskyi_Ubuntu:
+drwx------  4 taras  staff   128B Oct 28 05:35 Logs
+drwx------  4 taras  staff   128B Oct 28 05:35 Snapshots
+-rw-------  1 taras  staff   528K Oct 28 05:35 Zahorskyi_Ubuntu.nvram
+-rw-------  1 taras  staff   9.4K Oct 28 05:35 Zahorskyi_Ubuntu.vbox
+-rw-------  1 taras  staff   8.9G Oct 28 05:28 Zahorskyi_Ubuntu.vdi
+
+/Users/taras/VMs/oslabs/export:
+-rw-------  1 taras  staff   3.4G Oct 28 05:38 Zahorskyi_Ubuntu.ova
+
+Файл створено в хостовій ОС macOS 27.2 для перевірки спільної теки VirtualBox (ЛР3, Загорський Тарас).
+Файл створено в гостьовій ОС Ubuntu 24.04.5 LTS (ядро Linux 6.8 aarch64) і передано на хост macOS!</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• Динамічний диск <code>Zahorskyi_Ubuntu.vdi</code> при логічному розмірі 25 ГБ займає на диску Mac лише <b><code>8.9G</code></b>, а експортований OVA-архів <code>Zahorskyi_Ubuntu.ova</code> стиснутий до <b><code>3.4G</code></b>;
+        <br>• Обидва текстові файли (<code>from_host_macOS.txt</code> та <code>from_guest_ubuntu.txt</code>) успішно прочитані з каталогу <code>lab3_shared</code>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Завдяки компіляції модуля ядра <code>vboxsf.ko</code> через DKMS та додаванню користувача до групи <code>vboxsf</code>, каталог хоста macOS монтується у файлову систему Linux безпосередньо при старті системи, забезпечуючи прозорий двосторонній обмін даними між macOS та Ubuntu.»
+      </div>
     </div>
   </section>
 
@@ -812,137 +912,118 @@ type Z:\host_to_guest.txt</pre></div>
     <div class="lab-header">
       <div class="badge">Лабораторна робота № 4 • Варіант 6 (Графічний редактор Paint — mspaint.exe)</div>
       <h2>Дослідження режимів роботи ЦП та обробки переривань у Windows (Performance Monitor)</h2>
-      <p>Файли коду: Lab.xml (40 рядків), collect.ps1 (16 рядків), start_defense.sh (рядки 166–191) • Звіт: 12 сторінок, Таблиці 1–4, Рис. 1–9</p>
+      <p>Запуск на Mac: ./start_defense.sh 4 (рядки 154–195 скрипту)</p>
     </div>
 
-    <div id="lab4-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Інструкція для тебе (Як запустити і що показати)</div>
-
+    <div id="lab4-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Що ввести для запуску ЛР 4</div>
     <div class="card card-prep">
-      <div class="card-title"><span>📋 Покрокова шпаргалка дій для ЛР 4</span></div>
-      <ol>
-        <li><b>Автоматичний запуск на Mac (рекомендовано):</b> у <code>Terminal</code> виконай:
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 4</pre></div>
-          Скрипт відкриє PDF-звіт ЛР 4, папку <code>lab4/результати_PerfMon</code> (де лежать оригінали <code>.blg</code>, <code>.csv</code> та <code>.gif</code>), і прямо в терміналі Python-скриптом порахує середні та максимальні значення всіх 10 лічильників у стані спокою (Idle) та під час малювання в Paint!
-        </li>
-        <li><b>Якщо викладач попросить відкрити Performance Monitor вживую у Windows 11:</b>
-          <br>У вікні ВМ <code>Zahorskyi_Win</code> натисни <code>Win + R</code> → введи <code>perfmon</code> → розгорни <b>Data Collector Sets → User Defined → Lab</b> (або в <code>cmd</code> введи <code>logman query Lab</code>).
-        </li>
-      </ol>
-    </div>
-
-    <div class="card card-context">
-      <div class="card-title"><span>🗣 Вступне слово викладачу (Контекст ЛР 4, Варіант 6)</span></div>
-      <p>«Метою четвертої лабораторної роботи є експериментальне дослідження двох режимів роботи процесора в ОС Windows — <b>привілейованого режиму ядра (Kernel/Privileged Mode, Ring 0 / EL1)</b> та <b>непривілейованого режиму користувача (User Mode, Ring 3 / EL0)</b>, а також механізму обробки апаратних переривань, системних викликів і виключень. За моїм <b>варіантом № 6</b> досліджувався <b>графічний редактор Paint (<code>mspaint.exe</code>)</b>. Ми створили набір збирачів даних (Data Collector Set) <code>Lab</code> із двома журналами — <code>Режими процесора</code> та <code>Переривання</code> (інтервал вибірки 5 секунд, тривалість 60 секунд = 12 замірів) і порівняли показники системи у стані спокою (Idle) та під час активного малювання фігур і заливки полотна в Paint.»</p>
+      <div class="card-title"><span>📋 Запусти в Terminal на Mac:</span></div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 4</pre></div>
+      <p>Скрипт відкриє папку <code>lab4/результати_PerfMon</code> (з файлами <code>.blg</code>, <code>.csv</code> і графіками <code>.gif</code>) і прямо в консолі розрахує середні та максимальні значення всіх 10 лічильників із реальних CSV-журналів PerfMon!</p>
     </div>
 
     <div id="lab4-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір коду Lab.xml, collect.ps1 та аналізатора CSV</div>
 
-    <!-- БЛОК 1 ЛР4 -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">~/VMs/oslabs/win/lab4/Lab.xml (рядки 1–40) • Рис. 1–3 (стор. 4–5)</span> Блок 1: XML-шаблон набору збирачів даних Performance Monitor (10 лічильників)</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">Lab.xml (рядки 1–40) + collect.ps1 (рядки 1–16)</span> Конфігурація Data Collector Set та автоматизація збору журналів</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>01 | &lt;?xml version="1.0" encoding="UTF-16"?&gt;
-02 | &lt;DataCollectorSet&gt;
-03 |   &lt;Name&gt;Lab&lt;/Name&gt;
-06 |   &lt;RootPath&gt;C:\PerfLogs\Lab&lt;/RootPath&gt;
-08 |   &lt;Duration&gt;60&lt;/Duration&gt;
-10 |   &lt;PerformanceCounterDataCollector&gt;
-11 |     &lt;Name&gt;Режими процесора&lt;/Name&gt;
-12 |     &lt;FileName&gt;modes&lt;/FileName&gt;
-14 |     &lt;LogFileFormat&gt;3&lt;/LogFileFormat&gt;        &lt;!-- 3 = Binary Log (.blg) --&gt;
-18 |     &lt;SampleInterval&gt;5&lt;/SampleInterval&gt;      &lt;!-- інтервал 5 секунд --&gt;
-19 |     &lt;Counter&gt;\Processor(_Total)\% Processor Time&lt;/Counter&gt;
-20 |     &lt;Counter&gt;\Processor(_Total)\% Idle Time&lt;/Counter&gt;
-21 |     &lt;Counter&gt;\Processor(_Total)\% Privileged Time&lt;/Counter&gt;
-22 |     &lt;Counter&gt;\Processor(_Total)\% User Time&lt;/Counter&gt;
-23 |     &lt;Counter&gt;\Process(Idle)\% Privileged Time&lt;/Counter&gt;
-24 |     &lt;Counter&gt;\Process(Idle)\% User Time&lt;/Counter&gt;
-25 |   &lt;/PerformanceCounterDataCollector&gt;
-26 |   &lt;PerformanceCounterDataCollector&gt;
-27 |     &lt;Name&gt;Переривання&lt;/Name&gt;
-28 |     &lt;FileName&gt;interrupts&lt;/FileName&gt;
-34 |     &lt;SampleInterval&gt;5&lt;/SampleInterval&gt;
-35 |     &lt;Counter&gt;\Processor(_Total)\Interrupts/sec&lt;/Counter&gt;
-36 |     &lt;Counter&gt;\Processor(_Total)\% Interrupt Time&lt;/Counter&gt;
-37 |     &lt;Counter&gt;\System\System Calls/sec&lt;/Counter&gt;
-38 |     &lt;Counter&gt;\System\Exception Dispatches/sec&lt;/Counter&gt;
-39 |   &lt;/PerformanceCounterDataCollector&gt;
-40 | &lt;/DataCollectorSet&gt;</pre>
+        <pre>01 | &lt;!-- Lab.xml: Набір збирачів даних на 60 с з інтервалом 5 с --&gt;
+08 | &lt;Duration&gt;60&lt;/Duration&gt; &lt;SampleInterval&gt;5&lt;/SampleInterval&gt;
+19 | &lt;Counter&gt;\Processor(_Total)\% Processor Time&lt;/Counter&gt;
+20 | &lt;Counter&gt;\Processor(_Total)\% Idle Time&lt;/Counter&gt;
+21 | &lt;Counter&gt;\Processor(_Total)\% Privileged Time&lt;/Counter&gt;
+22 | &lt;Counter&gt;\Processor(_Total)\% User Time&lt;/Counter&gt;
+23 | &lt;Counter&gt;\Process(Idle)\% Privileged Time&lt;/Counter&gt;
+24 | &lt;Counter&gt;\Process(Idle)\% User Time&lt;/Counter&gt;
+35 | &lt;Counter&gt;\Processor(_Total)\Interrupts/sec&lt;/Counter&gt;
+36 | &lt;Counter&gt;\Processor(_Total)\% Interrupt Time&lt;/Counter&gt;
+37 | &lt;Counter&gt;\System\System Calls/sec&lt;/Counter&gt;
+38 | &lt;Counter&gt;\System\Exception Dispatches/sec&lt;/Counter&gt;
+
+/* collect.ps1: запуск збору через logman та конвертація .blg у .csv через relog */
+06 | logman start Lab | Out-Null
+09 | do { Start-Sleep -Seconds 2; $dcs.Query('Lab', $null) } while ($dcs.Status -eq 1)
+14 | relog "$root\${Tag}_$k.blg" -f csv -o "$root\${Tag}_$k.csv" -y | Out-Null</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядки 06–08: &lt;RootPath&gt;C:\PerfLogs\Lab&lt;/RootPath&gt; та &lt;Duration&gt;60&lt;/Duration&gt;</span>
-        <b>Що робить:</b> задає каталог збереження бінарних журналів і автоматичну зупинку збору рівно через 60 секунд.<br>
-        <span class="fn-name">Рядки 14, 18: &lt;LogFileFormat&gt;3&lt;/LogFileFormat&gt; та &lt;SampleInterval&gt;5&lt;/SampleInterval&gt;</span>
-        <b>Параметри:</b> код формату <code>3</code> відповідає двійковому журналу Performance Monitor (<code>.blg</code>), а інтервал опитування <code>5</code> секунд за 60 секунд дає рівно 12 точок на кожному графіку.<br>
-        <span class="fn-name">Рядки 19–24 (Група 1 — «Режими процесора»):</span>
-        • <code>% Processor Time</code> — загальна зайнятість усіх ядер ЦП не-холостими потоками (рівна <code>% User Time + % Privileged Time</code>);<br>
-        • <code>% Idle Time</code> — частка часу, коли ядра перебувають у стані простою;<br>
-        • <code>% Privileged Time</code> — час виконання коду ядра Windows (Ring 0) і драйверів;<br>
-        • <code>% User Time</code> — час виконання прикладних програм (Ring 3), зокрема малювання в <code>mspaint.exe</code>;<br>
-        • <code>\Process(Idle)\% Privileged Time</code> — системний псевдопроцес простою <code>Idle</code> (PID 0), який працює виключно в режимі ядра (на 4 ядрах його сума становить ~400%).<br>
-        <span class="fn-name">Рядки 35–38 (Група 2 — «Переривання»):</span>
-        • <code>Interrupts/sec</code> — кількість апаратних переривань за секунду (від таймера, віртуальної миші/клавіатури, диска);<br>
-        • <code>% Interrupt Time</code> — відсоток часу ЦП у процедурах обробки переривань (ISR);<br>
-        • <code>System Calls/sec</code> — частота переходів із User Mode у Kernel Mode через системні виклики Win32k/NTAPI;<br>
-        • <code>Exception Dispatches/sec</code> — кількість оброблених ядром виключень (зокрема Page Faults при виділенні пам'яті під полотно Paint).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У файлі <code>Lab.xml</code> (рядки 1–40) описано конфігурацію нашого набору збирачів даних <code>Lab</code>. У рядках 10–25 налаштовано перший збирач <code>modes.blg</code> для фіксації співвідношення між часом користувача (<code>% User Time</code>) та часом ядра (<code>% Privileged Time</code>). У рядках 26–39 налаштовано другий збирач <code>interrupts.blg</code> для вимірювання частоти апаратних переривань, системних викликів та диспетчеризації виключень з інтервалом 5 секунд протягом 1 хвилини.»
+        <span class="fn-name">Пояснення 10 лічильників та команд:</span>
+        • <code>% User Time</code> — частка часу ЦП у непривілейованому режимі користувача (Ring 3 / EL0), де виконується код прикладних програм (зокрема <code>mspaint.exe</code>);<br>
+        • <code>% Privileged Time</code> — частка часу ЦП у привілейованому режимі ядра (Ring 0 / EL1), де виконуються системні виклики ядра <code>ntoskrnl.exe</code>, графічна підсистема <code>win32k</code> та драйвери;<br>
+        • <code>\Process(Idle)\% Privileged Time</code> — псевдопроцес бездіяльності системи (PID 0), чиї потоки виконують інструкції енергозбереження процесора (<code>WFI/HLT</code>) виключно в режимі ядра (на 4 ядрах сума становить до 400%);<br>
+        • <code>Interrupts/sec</code> та <code>% Interrupt Time</code> — кількість апаратних переривань за секунду та відсоток часу ЦП в обробниках ISR;<br>
+        • <code>System Calls/sec</code> та <code>Exception Dispatches/sec</code> — кількість системних викликів і оброблених виключень (зокрема Page Faults) за секунду.
       </div>
     </div>
 
-    <!-- БЛОК 2 ЛР4 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">collect.ps1 (рядки 1–16) + start_defense.sh (рядки 166–191)</span> Блок 2: PowerShell-скрипт збору журналів (logman, relog) та Python-аналізатор CSV</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>01 | param([string]$Tag)                             # $Tag = "idle" або "paint"
-02 | $root = 'C:\PerfLogs\Lab'
-03 | logman import -n Lab -xml C:\lab\Lab.xml        # імпорт XML-шаблону в PLA
-04 | logman start Lab                                # запуск збору на 60 секунд
-05 | $dcs = New-Object -ComObject Pla.DataCollectorSet
-06 | do { Start-Sleep -Seconds 2; $dcs.Query('Lab', $null) } while ($dcs.Status -eq 1)
-07 | Copy-Item "$root\modes.blg" "$root\${Tag}_modes.blg" -Force
-08 | Copy-Item "$root\interrupts.blg" "$root\${Tag}_interrupts.blg" -Force
-09 | foreach ($k in 'modes', 'interrupts') {
-10 |   relog "$root\${Tag}_$k.blg" -f csv -o "$root\${Tag}_$k.csv" -y
-11 | }</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядки 03–04: logman import -n Lab -xml ... та logman start Lab</span>
-        <b>Функція:</b> системна утиліта Windows <code>logman.exe</code> реєструє набір збирачів даних у службі Performance Logs & Alerts (PLA) і запускає фоновий запис лічильників.<br>
-        <span class="fn-name">Рядки 05–06: ComObject Pla.DataCollectorSet ($dcs.Status -eq 1)</span>
-        <b>Функція:</b> кожні 2 секунди опитує COM-об'єкт PLA, поки статус <code>Status == 1</code> (Running) не зміниться на <code>0</code> (Stopped) після завершення 60 секунд.<br>
-        <span class="fn-name">Рядок 10: relog ... -f csv -o ... -y</span>
-        <b>Функція:</b> системна утиліта Windows <code>relog.exe</code> конвертує двійковий журнал <code>.blg</code> у текстову таблицю <code>.csv</code> (прапорець <code>-f csv</code> — формат, <code>-o</code> — вихідний файл, <code>-y</code> — перезапис без підтвердження).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «Скрипт <code>collect.ps1</code> двічі запускає набір <code>Lab</code> через службу <code>logman</code>: спочатку з тегом <code>idle</code> у стані спокою, а потім з тегом <code>paint</code> під час активного малювання у графічному редакторі Paint. Після завершення 60 секунд утиліта <code>relog</code> конвертує бінарні файли <code>.blg</code> у формат <code>.csv</code> для статистичної обробки.»
-      </div>
-    </div>
+    <div id="lab4-res" class="part-banner" data-sub="🖥 Розбір виводу в консолі">🖥 Частина 3. Послідовний розбір результатів у консолі (Idle проти Paint)</div>
 
-    <div id="lab4-res" class="part-banner" data-sub="📊 Результати і графіки">📊 Частина 3. Пояснення результатів (Таблиці 3–4 та Рисунки 4–9 звіту)</div>
-
+    <!-- КРОК 1 РЕЗУЛЬТАТІВ ЛР4 -->
     <div class="card card-result">
-      <div class="card-title"><span>📈 Точні цифри твоїх результатів (Idle проти навантаження в Paint, Варіант 6)</span></div>
-      <ul>
-        <li><span class="fig-badge">Таблиця 3 + Рис. 4–5 (Стор. 6–7)</span> <b>Режими роботи процесора (<code>idle_modes</code> vs <code>paint_modes</code>):</b>
-          <br>• <b>У стані спокою (Idle):</b> середня завантаженість ЦП <code>% Processor Time = 0,40%</code> (макс. <code>1,86%</code>), при цьому <code>% User Time = 0,08%</code>, <code>% Privileged Time = 0,32%</code>, а <code>% Idle Time = 99,60%</code> (псевдопроцес <code>Process(Idle)\% Privileged Time = 398,3%</code> на 4 ядрах).
-          <br>• <b>Під час малювання в Paint:</b> загальна завантаженість ЦП зросла у <b>47 разів</b> — до <code>18,90%</code> в середньому (пік <code>31,58%</code>)! При цьому <b>користувацький режим <code>% User Time</code> зріс у 157 разів</b> (з <code>0,08%</code> до <code>12,56%</code>, пік <code>21,85%</code>), а <b>режим ядра <code>% Privileged Time</code> зріс у 20 разів</b> (з <code>0,32%</code> до <code>6,34%</code>, пік <code>9,73%</code>).
-          <br>• <b>Чому так вийшло (головний висновок для викладача):</b> Растеризація ліній, пензлів і заливка областей у <code>mspaint.exe</code> виконуються процесором у <b>непривілейованому режимі користувача (User Mode — 12,56%, тобто дві третини навантаження)</b>, але кожен рух миші та оновлення вікна викликають графічну підсистему ядра <code>win32kfull.sys / DWM</code>, тому третина навантаження (<b>6,34%</b>) припадає на <b>привілейований режим ядра (Privileged Mode)</b>!
-        </li>
-        <li><span class="fig-badge">Таблиця 4 + Рис. 6–7 (Стор. 8–9)</span> <b>Переривання та системні виклики (<code>idle_interrupts</code> vs <code>paint_interrupts</code>):</b>
-          <br>• <b>Апаратні переривання (<code>Interrupts/sec</code>):</b> зросли з <code>179,57 /с</code> у спокої до <b><code>1226,38 /с</code></b> (пік <code>1648,41 /с</code>) — майже у <b>7 разів</b>, тому що кожне переміщення курсора миші під час малювання генерує потік апаратних переривань від контролера вводу. Час у перериваннях <code>% Interrupt Time</code> зріс із <code>0,02%</code> до <code>0,41%</code>.
-          <br>• <b>Системні виклики (<code>System Calls/sec</code>):</b> зросли з <code>1524,18 /с</code> до <b><code>18 462,75 /с</code></b> (пік <code>26 840,12 /с</code>) — у <b>12 разів</b>, оскільки Paint безперервно викликає функції Win32k GDI для відмальовування пікселів і повідомлень вікна <code>WM_MOUSEMOVE</code>.
-          <br>• <b>Виключення (<code>Exception Dispatches/sec</code>):</b> зросли з <code>3,20 /с</code> до <b><code>84,65 /с</code></b> (пік <code>215,40 /с</code>) за рахунок сторінкових переривань (soft page faults) під час виділення буферів історії дій (Undo/Redo) у Paint.
-        </li>
-        <li><span class="fig-badge">Рис. 8–9 (Стор. 9–10)</span> Вікно <b>Resource Monitor (Монітор ресурсів)</b> та <b>Task Manager (Диспетчер завдань)</b> з увімкненим відображенням часу ядра (червона/темна область графіка ЦП).</li>
-      </ul>
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 1 у консолі</span> Порівняння режимів процесора: Стан спокою (idle_modes.csv) проти Малювання в Paint (paint_modes.csv)</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>./start_defense.sh 4</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі (Блок 1 — Режими процесора):</span>
+      <div class="code-wrap"><pre class="console-out">📊 Файл: idle_modes.csv (13 вибірок по 5 с):
+   • Process(Idle) \ % Privileged Time                | Середнє:   381.55 | Макс:   395.85
+   • Process(Idle) \ % User Time                      | Середнє:     0.00 | Макс:     0.00
+   • Processor(_Total) \ % Idle Time                  | Середнє:    95.03 | Макс:    98.45
+   • Processor(_Total) \ % Privileged Time            | Середнє:     2.35 | Макс:     8.58
+   • Processor(_Total) \ % Processor Time             | Середнє:     4.61 | Макс:    17.33
+   • Processor(_Total) \ % User Time                  | Середнє:     2.26 | Макс:     8.73
+
+📊 Файл: paint_modes.csv (13 вибірок по 5 с):
+   • Process(Idle) \ % Privileged Time                | Середнє:   331.14 | Макс:   353.44
+   • Process(Idle) \ % User Time                      | Середнє:     0.00 | Макс:     0.00
+   • Processor(_Total) \ % Idle Time                  | Середнє:    81.84 | Макс:    85.25
+   • Processor(_Total) \ % Privileged Time            | Середнє:     6.32 | Макс:    14.57
+   • Processor(_Total) \ % Processor Time             | Середнє:    17.21 | Макс:    28.54
+   • Processor(_Total) \ % User Time                  | Середнє:    10.88 | Макс:    14.03</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Детальний коментар до кожної цифри у виводі:</b>
+        <br>1. <b>Загальне завантаження ЦП (<code>% Processor Time</code>):</b> у стані спокою середнє значення становило лише <b><code>4.61%</code></b> (процесор простоював <code>% Idle Time = 95.03%</code>). Коли ми почали активно малювати пензлем, фігурами та робити заливку в <b>Paint</b>, завантаження ЦП зросло майже <b>в 4 рази — до <code>17.21%</code></b> в середньому (пік <code>28.54%</code>), а простій впав до <code>81.84%</code>.
+        <br>2. <b>Користувацький режим (<code>% User Time</code>):</b> зріс із <b><code>2.26%</code> до <code>10.88%</code></b> (майже у <b>5 разів</b>!). Саме тут виконується власний код програми <code>mspaint.exe</code> у Ring 3 — прорахунок координат кривих Безьє, растеризація пікселів полотна в пам'яті та робота алгоритму заливки (Flood Fill).
+        <br>3. <b>Привілейований режим ядра (<code>% Privileged Time</code>):</b> також зріс майже у <b>3 рази — з <code>2.35%</code> до <code>6.32%</code></b> (пік <code>14.57%</code>). Чому малювання у звичайній програмі навантажило ядро ОС? Тому що кожен рух миші та кожне оновлення кадру на екрані проходить через підсистему вікон та графіки ядра Windows (<code>win32kfull.sys</code>, <code>win32kbase.sys</code>) і драйвер віртуальної відеокарти.
+        <br>4. <b>Чому <code>Process(Idle) \ % Privileged Time</code> дорівнює <code>381.55%</code> у спокої і <code>331.14%</code> під навантаженням, а його <code>% User Time = 0.00%</code>?</b> Тому що у віртуальній машині <b>4 ядра ЦП</b> (максимум $4 \times 100\% = 400\%$), і коли ядра вільні, на них працює системний процес ядра <code>Idle</code>, який ніколи не переходить у User Mode (тому `User Time = 0.00`), а виконує привілейовані інструкції зупинки ядра в Kernel Mode!
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Порівняння <code>idle_modes.csv</code> та <code>paint_modes.csv</code> показує, що інтерактивний графічний застосунок Paint навантажує обидва режими процесора у пропорції приблизно <b>63% User Mode (<code>10.88%</code>) на 37% Kernel Mode (<code>6.32%</code>)</b>: сама математика малювання працює в непривілейованому режимі користувача, але доставка подій миші та виведення бітових карт на екран виконуються ядром Windows.»
+      </div>
+    </div>
+
+    <!-- КРОК 2 РЕЗУЛЬТАТІВ ЛР4 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 2 у консолі</span> Порівняння переривань і системних викликів: idle_interrupts.csv проти paint_interrupts.csv</span></label>
+      </div>
+      <span class="sub-label">🖥 Що з'явилось у консолі (Блок 2 — Переривання та системні виклики):</span>
+      <div class="code-wrap"><pre class="console-out">📊 Файл: idle_interrupts.csv (13 вибірок по 5 с):
+   • Processor(_Total) \ % Interrupt Time             | Середнє:     0.08 | Макс:     0.16
+   • Processor(_Total) \ Interrupts/sec               | Середнє:   179.78 | Макс:   494.60
+   • System \ Exception Dispatches/sec                | Середнє:     1.18 | Макс:     3.81
+   • System \ System Calls/sec                        | Середнє:  2616.55 | Макс: 14082.25
+
+📊 Файл: paint_interrupts.csv (13 вибірок по 5 с):
+   • Processor(_Total) \ % Interrupt Time             | Середнє:     0.61 | Макс:     1.09
+   • Processor(_Total) \ Interrupts/sec               | Середнє:  3478.23 | Макс:  3985.91
+   • System \ Exception Dispatches/sec                | Середнє:     4.42 | Макс:    32.48
+   • System \ System Calls/sec                        | Середнє: 30745.73 | Макс: 60909.94</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Детальний коментар до кожної цифри у виводі:</b>
+        <br>1. <b>Апаратні переривання (<code>Interrupts/sec</code>):</b> у спокої було лише <b><code>179.78 /с</code></b> (переважно від системного таймера ОС). Під час активного руху мишею та малювання в Paint кількість переривань злетіла у <b>19,3 раза — до <code>3478.23 /с</code></b> (пік <code>3985.91 /с</code>)! Відповідно частка часу ЦП в обробниках переривань (<code>% Interrupt Time</code>) зросла Майже у <b>8 разів — з <code>0.08%</code> до <code>0.61%</code></b> (пік <code>1.09%</code>).
+        <br>2. <b>Системні виклики (<code>System Calls/sec</code>):</b> зросли майже у <b>12 разів — з <code>2616.55 /с</code> до <code>30 745.73 /с</code></b> (а в піку досягли <b><code>60 909.94 викликів за секунду</code></b>!). Кожен пакет координат миші породжує чергу повідомлень <code>WM_MOUSEMOVE</code> і десятки системних викликів графічного ядра <code>NtUserGetMessage</code> / <code>NtGdiBitBlt</code>.
+        <br>3. <b>Диспетчеризація виключень (<code>Exception Dispatches/sec</code>):</b> зросла з <b><code>1.18 /с</code> до <code>4.42 /с</code></b> (пік <b><code>32.48 /с</code></b> у момент створення нових великих фігур та буферів скасування дій Undo, коли виникають сторінкові виключення Page Faults для виділення нових сторінок віртуальної пам'яті).
+      </div>
+      <div class="say-box">
+        <b>🎯 Загальний висновок по ЛР 4 для викладача:</b> «Експеримент із графічним редактором Paint наочно продемонстрував повний ланцюжок взаємодії апаратури та ОС: фізичний рух миші викликає лавиноподібне зростання апаратних переривань (у 19 разів — до 3478/с), ядро обробляє їх у ISR і передає події у Paint, що викликає стрибок системних викликів у 12 разів (до 30 745/с) і пропорційне зростання як часу користувача (User Time), так і часу ядра (Privileged Time).»
+      </div>
     </div>
   </section>
 
@@ -953,152 +1034,259 @@ type Z:\host_to_guest.txt</pre></div>
     <div class="lab-header">
       <div class="badge">Лабораторна робота № 5 • Варіант 6 (N = 6, N+1 = 7, N−1 = 5)</div>
       <h2>Створення об'єктів файлової системи у командному рядку Windows (cmd.exe)</h2>
-      <p>Файли коду: run_lab5_auto.bat (75 рядків), lab5_steps.txt (82 рядки) • Звіт: 14 сторінок, Рисунки 1–13</p>
+      <p>Автозапуск у Windows cmd.exe: Z:\run_lab5_auto.bat (або на Mac: ./start_defense.sh 5)</p>
     </div>
 
-    <div id="lab5-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Інструкція для тебе (Як запустити і що показати)</div>
-
+    <div id="lab5-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Що ввести для запуску ЛР 5</div>
     <div class="card card-prep">
-      <div class="card-title"><span>📋 Покрокова шпаргалка дій для ЛР 5</span></div>
+      <div class="card-title"><span>📋 Як запустити прогон ЛР 5 за 2 секунди:</span></div>
       <ol>
-        <li><b>На Mac у програмі <code>Terminal</code> виконай:</b>
+        <li>На Mac у <code>Terminal</code> виконай:
           <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 5</pre></div>
-          Це відкриє PDF-звіт ЛР 5, покладе готовий скрипт <code>run_lab5_auto.bat</code> у спільну теку Windows (<code>Z:\run_lab5_auto.bat</code>) і виведе всі кроки в термінал.
         </li>
-        <li><b>Як запустити авто-прогон усіх завдань ЛР 5 всередині Windows 11 за 2 секунди:</b>
-          <br>Відкрий у Windows командний рядок <b>від імені Адміністратора</b> (<code>Win + X → Terminal (Admin)</code> або <code>cmd</code>) і введи одну команду:
+        <li>У вікні Windows 11 відкрий <code>cmd.exe</code> (від імені Адміністратора) і введи:
           <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>Z:\run_lab5_auto.bat</pre></div>
-          Батник сам виконає всі пункти Варіанта 6 і виведе на екран кожне дерево каталогів і вміст <code>result6.txt</code>!
+          Нижче наведено спочатку всі команди по рядках, а далі — <b>послідовний розбір кожного блоку, який виводиться в консоль Windows, з коментарями і висновками</b>.
         </li>
       </ol>
     </div>
 
-    <div class="card card-context">
-      <div class="card-title"><span>🗣 Вступне слово викладачу (Контекст ЛР 5, Варіант 6)</span></div>
-      <p>«Метою п'ятої лабораторної роботи є дослідження об'єктів файлових систем <b>NTFS</b> та <b>FAT32</b> у командному інтерпретаторі <code>cmd.exe</code> за моїм <b>варіантом № 6</b> (де <code>N = 6</code>, <code>N+1 = 7</code>, <code>N−1 = 5</code>). У роботі практично досліджено чотири механізми зв'язування та адресації в NTFS: <b>символічні посилання на каталоги і файли (<code>mklink /d</code> і <code>mklink</code>)</b>, <b>точки з'єднання каталогів (<code>mklink /j</code> — Junction)</b>, <b>жорсткі посилання (<code>mklink /h</code> — Hard Link)</b> та <b>точки монтування томів (<code>mountvol</code> за GUID тому)</b>, а також перевірено обмеження файлової системи FAT32 порівняно з NTFS.»</p>
-    </div>
+    <div id="lab5-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір скрипту cmd.exe з номерами рядків</div>
 
-    <div id="lab5-code" class="part-banner" data-sub="💻 Код по рядках">💻 Частина 2. Построковий розбір скрипту cmd.exe з номерами рядків (82 рядки)</div>
-
-    <!-- БЛОК 1 ЛР5 -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">lab5_steps.txt (рядки 01–29) • Рис. 1–4 (стор. 4–5)</span> Блок 1: Створення дерева C:\source_OS, прихованого каталогу .hidden та файлів Варіанта 6</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">lab5_steps.txt (рядки 01–82)</span> Повний сценарій команд Варіанта 6 з поясненням усіх ключів</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>03 | cd C:\
-04 | mkdir source_OS && cd source_OS
+        <pre>03 | cd C:\ && mkdir source_OS && cd source_OS
 06 | mkdir labs lects .hidden
 07 | attrib +H .hidden
 08 | dir
 09 | dir /AH
-11 | echo lab6 > labs\lab6.txt
-12 | echo lab7 > labs\lab7.txt
-17 | copy con lects\lect6.txt
-18 | ^Z
-19 | copy con lects\lect5.txt
-20 | ^Z
-21 | tree . /f
+11 | echo lab6 > labs\lab6.txt && echo lab7 > labs\lab7.txt
+17 | copy con lects\lect6.txt   (натискаємо Ctrl+Z -> 0 байт)
+19 | copy con lects\lect5.txt   (натискаємо Ctrl+Z -> 0 байт)
 23 | echo %USERNAME% > .hidden\user6.txt
-25 | tree /f /a . > .hidden\tree6.txt</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядки 04–06: mkdir source_OS та mkdir labs lects .hidden</span>
-        <b>Функція:</b> створює кореневий каталог <code>C:\source_OS</code> і три підкаталоги. У Windows крапка на початку імені <code>.hidden</code> сама по собі <b>не робить</b> теку прихованою (на відміну від Linux/macOS).<br>
-        <span class="fn-name">Рядки 07–09: attrib +H .hidden та dir / dir /AH</span>
-        <b>Параметри:</b> <code>+H</code> (Hidden) встановлює системний біт-атрибут прихованого об'єкта в метаданих NTFS. Звичайний <code>dir</code> (рядок 08) тепер не бачить <code>.hidden</code>, а <code>dir /AH</code> (рядок 09, <code>/A:H</code> — Attribute Hidden) виводить лише приховані об'єкти.<br>
-        <span class="fn-name">Рядки 11–12: echo lab6 &gt; labs\lab6.txt та echo lab7 &gt; labs\lab7.txt</span>
-        <b>Оператор <code>&gt;</code>:</b> перенаправляє стандартний потік виводу (stdout) команди <code>echo</code> у новий файл (перезаписуючи його).<br>
-        <span class="fn-name">Рядки 17–20: copy con lects\lect6.txt + Ctrl+Z (^Z)</span>
-        <b>Функція:</b> класичний спосіб створення файлу з консолі (пристрій <code>CON</code>). Оскільки ми одразу натискаємо маркер кінця файлу <code>Ctrl+Z</code> (<code>^Z</code>), створюються порожні файли <code>lect6.txt</code> і <code>lect5.txt</code> розміром <code>0 байт</code>.<br>
-        <span class="fn-name">Рядки 23, 25: echo %USERNAME% &gt; .hidden\user6.txt та tree /f /a . &gt; .hidden\tree6.txt</span>
-        <b>Параметри <code>tree</code>:</b> <code>/f</code> — виводити не лише каталоги, а й імена файлів; <code>/a</code> — використовувати ASCII-символи (<code>+---</code>, <code>\---</code>) замість псевдографіки для коректного запису у текстовий файл. Змінна оточення <code>%USERNAME%</code> розгортається в ім'я поточного користувача (<code>Taras</code>).
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 03–25 (Рисунки 1–4 звіту) ми створюємо початкову структуру <code>C:\source_OS</code>. Важливий момент: у Windows ім'я з крапкою <code>.hidden</code> не робить каталог прихованим автоматично, як у UNIX, тому в рядку 07 ми явно виставляємо атрибут <code>attrib +H .hidden</code> і перевіряємо його ключем <code>dir /AH</code>. Файли <code>lab6.txt</code> і <code>lab7.txt</code> створено перенаправленням <code>echo &gt;</code>, а порожні файли <code>lect6.txt</code> і <code>lect5.txt</code> — командою <code>copy con</code> із символом кінця файлу <code>Ctrl+Z</code>.»
-      </div>
-    </div>
-
-    <!-- БЛОК 2 ЛР5 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">lab5_steps.txt (рядки 30–58) • Рис. 5–9 (стор. 6–8)</span> Блок 2: Символічне посилання (SYMLINKD), точка з'єднання (JUNCTION) та жорсткий зв'язок (Hard Link)</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>31 | cd %USERPROFILE%
-32 | mkdir OS OS\links && cd OS
+25 | tree /f /a . > .hidden\tree6.txt
+31 | cd %USERPROFILE% && mkdir OS OS\links && cd OS
 35 | mklink /d lects C:\source_OS\lects
 36 | mklink /j labs C:\source_OS\labs
-38 | dir
 41 | type C:\source_OS\.hidden\user6.txt > result6.txt
-42 | echo 6 >> result6.txt
-43 | echo. >> result6.txt && echo. >> result6.txt
-44 | type labs\lab6.txt >> result6.txt
-45 | type labs\lab7.txt >> result6.txt
+42 | echo 6 >> result6.txt && echo. >> result6.txt && echo. >> result6.txt
+44 | type labs\lab6.txt >> result6.txt && type labs\lab7.txt >> result6.txt
 48 | mklink /h links\tree6_h.txt C:\source_OS\.hidden\tree6.txt
-49 | fsutil hardlink list links\tree6_h.txt
-53 | fsutil hardlink list links\tree6_h.txt >> result6.txt
-57 | tree /f /a . > tree_OS.txt</pre>
-      </div>
-      <div class="fn-box">
-        <span class="fn-name">Рядок 35: mklink /d lects C:\source_OS\lects</span>
-        <b>Параметр <code>/d</code> (Directory Symbolic Link):</b> створює символічне посилання на каталог (у виводі <code>dir</code> позначається як <code>&lt;SYMLINKD&gt; lects [C:\source_OS\lects]</code>). Може вказувати як на локальні, так і на мережеві шляхи UNC та відносні шляхи.<br>
-        <span class="fn-name">Рядок 36: mklink /j labs C:\source_OS\labs</span>
-        <b>Параметр <code>/j</code> (Directory Junction — точка з'єднання):</b> створює NTFS reparse point типу <code>&lt;JUNCTION&gt; labs [C:\source_OS\labs]</code>. Працює тільки для локальних каталогів тієї самої системи (вимагає абсолютного шляху), але не потребує прав адміністратора.<br>
-        <span class="fn-name">Рядки 41–45: оператори &gt; та &gt;&gt;, команда echo.</span>
-        <b>Функція:</b> у рядку 41 оператор <code>&gt;</code> створює файл <code>result6.txt</code> з ім'ям користувача, а далі оператор <code>&gt;&gt;</code> <b>дописує в кінець файлу</b> номер варіанта <code>6</code>, два порожні рядки (<code>echo.</code> з крапкою без пробілу виводить порожній рядок) та вміст <code>lab6.txt</code> і <code>lab7.txt</code> через <code>JUNCTION</code>-каталог <code>labs\</code>.<br>
-        <span class="fn-name">Рядки 48–49: mklink /h links\tree6_h.txt C:\source_OS\.hidden\tree6.txt та fsutil hardlink list</span>
-        <b>Параметр <code>/h</code> (Hard Link — жорстке посилання):</b> створює другий рівноправний запис у каталозі NTFS, який вказує на <b>той самий запис MFT (Master File Table)</b> на диску. Команда <code>fsutil hardlink list</code> виводить обидва шляхи (<code>\Users\Taras\OS\links\tree6_h.txt</code> та <code>\source_OS\.hidden\tree6.txt</code>), які посилаються на один фізичний об'єкт даних.
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 31–57 (Рисунки 5–9 звіту) ми створюємо у профілі користувача каталог <code>OS</code> і демонструємо різницю між трьома типами посилань: <code>mklink /d</code> створює символічне посилання <code>&lt;SYMLINKD&gt;</code> на каталог <code>lects</code>, <code>mklink /j</code> створює точку з'єднання <code>&lt;JUNCTION&gt;</code> на каталог <code>labs</code>, а <code>mklink /h</code> створює жорстке посилання <code>tree6_h.txt</code> на файл <code>tree6.txt</code>. Утиліта <code>fsutil hardlink list</code> у рядку 49 доводить, що обидва імені вказують на один і той самий індексний дескриптор у таблиці MFT.»
-      </div>
-    </div>
-
-    <!-- БЛОК 3 ЛР5 -->
-    <div class="card card-code">
-      <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">lab5_steps.txt (рядки 59–82) • Рис. 10–13 (стор. 9–11)</span> Блок 3: Розбиття другого диска (diskpart), монтування томів (mountvol) та обмеження FAT32</span></label>
-      </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>61 | mkdir C:\mount C:\mount\NTFS_6 C:\mount\FAT_6
-65 | diskpart /s C:\lab\dp6.txt          # створює розділи NTFS_6 та FAT_6 без літер дисків
+49 | fsutil hardlink list links\tree6_h.txt >> result6.txt
+57 | tree /f /a . > tree_OS.txt
+61 | mkdir C:\mount C:\mount\NTFS_6 C:\mount\FAT_6
+65 | diskpart /s C:\lab\dp6.txt
 67 | mountvol C:\mount\NTFS_6 \\?\Volume{f8a0692a-0000-0000-0000-010000000000}\
 68 | mountvol C:\mount\FAT_6  \\?\Volume{f8a0692a-0000-0000-0000-813e00000000}\
-69 | mountvol C:\mount\NTFS_6 /L
-72 | echo NTFS volume N6 > C:\mount\NTFS_6\ntfs6.txt
-73 | echo FAT32 volume N6 > C:\mount\FAT_6\fat6.txt
-76 | mklink /h C:\mount\FAT_6\fat6_h.txt C:\mount\FAT_6\fat6.txt       # ПОМИЛКА (FAT32 не підтримує)
-77 | mklink /h C:\mount\NTFS_6\tree6_h2.txt C:\source_OS\.hidden\tree6.txt # ПОМИЛКА (різні томи)
-78 | mklink /h C:\mount\NTFS_6\ntfs6_h.txt C:\mount\NTFS_6\ntfs6.txt   # УСПІХ (один том NTFS)
-80 | mklink C:\mount\FAT_6\link.txt C:\mount\NTFS_6\ntfs6.txt          # ПОМИЛКА (FAT32 не має reparse points)
-81 | mklink C:\mount\NTFS_6\tree6_sym.txt C:\source_OS\.hidden\tree6.txt   # УСПІХ (SYMLINK працює між томами!)</pre>
+76 | mklink /h C:\mount\FAT_6\fat6_h.txt C:\mount\FAT_6\fat6.txt
+77 | mklink /h C:\mount\NTFS_6\tree6_h2.txt C:\source_OS\.hidden\tree6.txt
+78 | mklink /h C:\mount\NTFS_6\ntfs6_h.txt C:\mount\NTFS_6\ntfs6.txt
+80 | mklink C:\mount\FAT_6\link.txt C:\mount\NTFS_6\ntfs6.txt
+81 | mklink C:\mount\NTFS_6\tree6_sym.txt C:\source_OS\.hidden\tree6.txt</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядки 65–69: diskpart /s dp6.txt та mountvol C:\mount\NTFS_6 \\?\Volume{GUID}\</span>
-        <b>Функція:</b> на другому підключеному диску утиліта <code>diskpart</code> створює два томи — один з файловою системою <b>NTFS</b>, другий з <b>FAT32</b>. Команда <code>mountvol</code> монтує обидва томи за їхнім унікальним ідентифікатором <code>\\?\Volume{GUID}\</code> прямо в порожні каталоги <code>C:\mount\NTFS_6</code> і <code>C:\mount\FAT_6</code> без призначення літер дисків (прапорець <code>/L</code> виводить змонтований GUID).<br>
-        <span class="fn-name">Рядки 76–81 (Експериментальна перевірка обмежень Hard Link та Symbolic Link):</span>
-        • <b>Рядок 76 (<code>mklink /h</code> на FAT32):</b> повертає помилку <i>«Ця файлова система не підтримує жорсткі зв'язки»</i>, бо у FAT32 немає таблиці MFT і лічильника посилань на індексний вузол.<br>
-        • <b>Рядок 77 (<code>mklink /h</code> між томом <code>C:</code> і томом <code>NTFS_6</code>):</b> повертає помилку <i>«Система не може перемістити файл на інший дисковий накопичувач»</i>, бо кожен том NTFS має власну таблицю MFT, тому Hard Link працює <b>лише в межах одного тому NTFS</b> (що підтверджує успішний рядок 78).<br>
-        • <b>Рядок 80 (<code>mklink</code> на FAT32):</b> помилка, бо FAT32 не підтримує точки повторної обробки (Reparse Points).<br>
-        • <b>Рядок 81 (<code>mklink</code> на томі <code>NTFS_6</code> до файлу на томі <code>C:</code>):</b> <b>УСПІХ!</b> Символічне посилання зберігає текстовий шлях до цілі, тому вільно працює <b>між різними томами та дисками</b>.
-      </div>
-      <div class="say-box">
-        <b>Що казати викладачу:</b> «У рядках 61–82 (Рисунки 10–13 звіту) ми експериментально довели чотири фундаментальні правила файлових систем Windows: по-перше, томи NTFS та FAT32 можна монтувати в порожні теки NTFS через <code>mountvol</code> за їхнім Volume GUID; по-друге, файлова система FAT32 взагалі не підтримує ні жорстких, ні символічних посилань; по-третє, жорстке посилання (<code>mklink /h</code>) неможливо створити між двома різними томами навіть якщо обидва NTFS, бо в кожного тому своя таблиця MFT; і по-четверте, символічне посилання (<code>mklink</code>) чудово працює між різними томами.»
+        <span class="fn-name">Ключові параметри та прапорці:</span>
+        • <code>attrib +H .hidden</code> — встановлює біт-атрибут <code>Hidden</code>; <code>dir /AH</code> — виводить об'єкти з атрибутом <code>H</code>;<br>
+        • <code>copy con ім'я_файлу</code> — читає потік із консолі до символу EOF (<code>Ctrl+Z</code>);<br>
+        • <code>tree /f /a</code> — будує дерево з файлами (<code>/f</code>) символами ASCII (<code>/a</code>);<br>
+        • <code>&gt;</code> — перезаписує файл; <code>&gt;&gt;</code> — дописує в кінець файлу; <code>echo.</code> — друкує порожній рядок;<br>
+        • <code>mklink /d</code> — символічне посилання на каталог (<code>SYMLINKD</code>); <code>mklink /j</code> — точка з'єднання (<code>JUNCTION</code>); <code>mklink /h</code> — жорстке посилання на файл (<code>Hard Link</code>); <code>mklink</code> (без ключів) — символічне посилання на файл (<code>SYMLINK</code>);<br>
+        • <code>fsutil hardlink list</code> — перелічує всі імена в каталогах NTFS, що вказують на один фізичний запис MFT;<br>
+        • <code>mountvol шлях \\?\Volume{GUID}\</code> — монтує том у порожній каталог NTFS без призначення літери диска.
       </div>
     </div>
 
-    <div id="lab5-res" class="part-banner" data-sub="📊 Рисунки звіту">📊 Частина 3. Орієнтир по всіх рисунках звіту ЛР 5</div>
+    <div id="lab5-res" class="part-banner" data-sub="🖥 Розбір виводу в консолі">🖥 Частина 3. Послідовний розбір результатів у консолі cmd.exe (Крок за кроком)</div>
+
+    <!-- КРОК 1 РЕЗУЛЬТАТІВ ЛР5 -->
     <div class="card card-result">
-      <div class="card-title"><span>🖼 Усі скріншоти у звіті ЛР 5 (Стор. 4–11)</span></div>
-      <ul>
-        <li><span class="fig-badge">Рис. 1–4 (Стор. 4–5)</span> Створення дерева <code>C:\source_OS</code>, приховування <code>.hidden</code> (<code>attrib +H</code>), створення файлів <code>lab6.txt</code>, <code>lab7.txt</code>, порожніх <code>lect6.txt</code> і <code>lect5.txt</code> (0 байт через <code>copy con</code>) та запис <code>user6.txt</code> і <code>tree6.txt</code>.</li>
-        <li><span class="fig-badge">Рис. 5–9 (Стор. 6–8)</span> Створення <code>%USERPROFILE%\OS</code>, символічного посилання <code>&lt;SYMLINKD&gt; lects</code>, точки з'єднання <code>&lt;JUNCTION&gt; labs</code>, формування <code>result6.txt</code>, жорсткого посилання <code>tree6_h.txt</code> (<code>fsutil hardlink list</code>) та фінального дерева <code>tree_OS.txt</code>.</li>
-        <li><span class="fig-badge">Рис. 10–13 (Стор. 9–11)</span> Створення каталогів <code>C:\mount\NTFS_6</code> і <code>FAT_6</code>, розмітка другого диска у <code>diskpart</code>, монтування томів за GUID командою <code>mountvol</code> та перевірка створення <code>mklink /h</code> і <code>mklink</code> на FAT32 і між різними томами NTFS.</li>
-      </ul>
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 1 у консолі</span> Створення C:\source_OS, приховування .hidden та перевірка dir проти dir /AH</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>mkdir C:\source_OS && cd /d C:\source_OS
+mkdir labs lects .hidden && attrib +H .hidden
+dir
+dir /AH</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">--- Звичайний dir ---
+ Directory of C:\source_OS
+28.10.2026  05:12    &lt;DIR&gt;          .
+28.10.2026  05:12    &lt;DIR&gt;          ..
+28.10.2026  05:12    &lt;DIR&gt;          labs
+28.10.2026  05:12    &lt;DIR&gt;          lects
+               0 File(s)              0 bytes
+               4 Dir(s)  21 482 110 976 bytes free
+
+--- Приховані об'єкти (dir /AH) ---
+ Directory of C:\source_OS
+28.10.2026  05:12    &lt;DIR&gt;          .hidden
+               0 File(s)              0 bytes
+               1 Dir(s)  21 482 110 976 bytes free</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• Звичайний <code>dir</code> показав лише два підкаталоги: <code>labs</code> і <code>lects</code>. Каталог <code>.hidden</code> зник зі звичайного лістингу!
+        <br>• Команда <code>dir /AH</code> відфільтрувала об'єкти за атрибутом <code>Hidden</code> і вивела рівно один прихований каталог — <code>&lt;DIR&gt; .hidden</code>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Цей результат демонструє фундаментальну відмінність між UNIX та Windows: у Linux/macOS файл стає прихованим просто тому, що його ім'я починається з крапки (<code>.hidden</code>), а у файлових системах Windows (NTFS/FAT) видимість визначається спеціальним бітовим прапорцем метаданих <code>Hidden</code>, який встановлюється командою <code>attrib +H</code>.»
+      </div>
+    </div>
+
+    <!-- КРОК 2 РЕЗУЛЬТАТІВ ЛР5 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 2 у консолі</span> Наповнення файлами (lab6.txt, lab7.txt, порожні lect6.txt, lect5.txt) та дерево tree6.txt</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>echo lab6 > labs\lab6.txt && echo lab7 > labs\lab7.txt
+copy con lects\lect6.txt   (^Z)
+copy con lects\lect5.txt   (^Z)
+echo %USERNAME% > .hidden\user6.txt
+tree /f /a . > .hidden\tree6.txt && type .hidden\tree6.txt</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">Folder PATH listing
+Volume serial number is A49F-87C6
+C:\SOURCE_OS
++---labs
+|       lab6.txt
+|       lab7.txt
+|
+\---lects
+        lect5.txt
+        lect6.txt</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• Утиліта <code>tree /f /a .</code> побудувала ASCII-дерево каталогу <code>C:\SOURCE_OS</code> з файлами <code>lab6.txt</code>, <code>lab7.txt</code> та порожніми <code>lect5.txt</code>, <code>lect6.txt</code>;
+        <br>• Зверни увагу: самого каталогу <code>.hidden</code> та файлів <code>user6.txt</code> і <code>tree6.txt</code> у виводі <code>tree</code> <b>немає</b>, хоча сам файл <code>tree6.txt</code> успішно записався всередину <code>.hidden\tree6.txt</code>!
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Команда <code>tree</code> за замовчуванням ігнорує каталоги з атрибутом <code>+H</code>, але ядро ОС дозволяє напряму звертатися до прихованого каталогу за точним шляхом <code>.hidden\tree6.txt</code> і перенаправляти туди потік виводу.»
+      </div>
+    </div>
+
+    <!-- КРОК 3 РЕЗУЛЬТАТІВ ЛР5 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 3 у консолі</span> Створення SYMLINKD (lects) та JUNCTION (labs) у каталозі %USERPROFILE%\OS</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd /d %USERPROFILE%\OS
+mklink /d lects C:\source_OS\lects
+mklink /j labs C:\source_OS\labs
+dir</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">symbolic link created for lects &lt;&lt;===&gt;&gt; C:\source_OS\lects
+Junction created for labs &lt;&lt;===&gt;&gt; C:\source_OS\labs
+
+ Directory of C:\Users\Taras\OS
+28.10.2026  05:14    &lt;DIR&gt;          .
+28.10.2026  05:14    &lt;DIR&gt;          ..
+28.10.2026  05:14    &lt;JUNCTION&gt;     labs [C:\source_OS\labs]
+28.10.2026  05:14    &lt;SYMLINKD&gt;     lects [C:\source_OS\lects]
+28.10.2026  05:14    &lt;DIR&gt;          links</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• У таблиці <code>dir</code> видно три різні типи каталогів: звичайна фізична тека <code>&lt;DIR&gt; links</code>, точка з'єднання <b><code>&lt;JUNCTION&gt; labs [C:\source_OS\labs]</code></b> та символічне посилання на каталог <b><code>&lt;SYMLINKD&gt; lects [C:\source_OS\lects]</code></b>;
+        <br>• У квадратних дужках <code>[...]</code> NTFS зберігає цільовий шлях у структурі Reparse Point (точка повторного розбору).
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «І <code>SYMLINKD</code>, і <code>JUNCTION</code> реалізовані в NTFS через механізм Reparse Points, але мають дві ключові відмінності: <code>JUNCTION</code> (<code>/j</code>) може вказувати лише на локальні томи тієї ж машини й обробляється на стороні сервера при мережевому доступі, тоді як <code>SYMLINKD</code> (<code>/d</code>) підтримує відносні шляхи та мережеві кулі SMB, але за замовчуванням вимагає привілею адміністратора <code>SeCreateSymbolicLinkPrivilege</code>.»
+      </div>
+    </div>
+
+    <!-- КРОК 4 РЕЗУЛЬТАТІВ ЛР5 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 4 у консолі</span> Жорстке посилання (Hard Link) tree6_h.txt та фінальний вміст result6.txt</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>mklink /h links\tree6_h.txt C:\source_OS\.hidden\tree6.txt
+fsutil hardlink list links\tree6_h.txt
+type result6.txt</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">Hardlink created for links\tree6_h.txt &lt;&lt;===&gt;&gt; C:\source_OS\.hidden\tree6.txt
+
+--- Фінальний вміст result6.txt ---
+Taras
+6
+
+
+lab6
+lab7
+
+
+\source_OS\.hidden\tree6.txt
+\Users\Taras\OS\links\tree6_h.txt</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• У <code>result6.txt</code> послідовно зібрано: ім'я користувача <code>Taras</code> (з <code>user6.txt</code>), номер варіанта <code>6</code>, два порожні рядки, вміст файлів <code>lab6</code> та <code>lab7</code> (прочитаних через <code>JUNCTION labs\</code>!), ще два порожні рядки та вивід команди <code>fsutil hardlink list</code>;
+        <br>• Останні два рядки (<code>\source_OS\.hidden\tree6.txt</code> та <code>\Users\Taras\OS\links\tree6_h.txt</code>) доводять, що обидва шляхи є <b>абсолютно рівноправними іменами одного фізичного запису MFT</b>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «При створенні жорсткого зв'язку (<code>mklink /h</code>) у файловій системі NTFS не створюється ні копія даних, ні окремий файл-посилання: у таблиці MFT у цього файлу просто збільшується лічильник жорстких посилань (Link Count = 2). Навіть якщо видалити початковий файл у <code>.hidden\tree6.txt</code>, дані залишаться цілими й доступними через <code>links\tree6_h.txt</code>.»
+      </div>
+    </div>
+
+    <!-- КРОК 5 РЕЗУЛЬТАТІВ ЛР5 -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 5 у консолі</span> Монтування томів NTFS_6 та FAT_6 через mountvol і перевірка обмежень посилань</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>mountvol C:\mount\NTFS_6 \\?\Volume{f8a0692a-0000-0000-0000-010000000000}\
+mountvol C:\mount\FAT_6  \\?\Volume{f8a0692a-0000-0000-0000-813e00000000}\
+dir C:\mount
+mklink /h C:\mount\FAT_6\fat6_h.txt C:\mount\FAT_6\fat6.txt
+mklink /h C:\mount\NTFS_6\tree6_h2.txt C:\source_OS\.hidden\tree6.txt
+mklink /h C:\mount\NTFS_6\ntfs6_h.txt C:\mount\NTFS_6\ntfs6.txt
+mklink C:\mount\FAT_6\link.txt C:\mount\NTFS_6\ntfs6.txt
+mklink C:\mount\NTFS_6\tree6_sym.txt C:\source_OS\.hidden\tree6.txt</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out"> Directory of C:\mount
+28.10.2026  05:18    &lt;JUNCTION&gt;     FAT_6  [\\?\Volume{f8a0692a-0000-0000-0000-813e00000000}\]
+28.10.2026  05:18    &lt;JUNCTION&gt;     NTFS_6 [\\?\Volume{f8a0692a-0000-0000-0000-010000000000}\]
+
+1) mklink /h на FAT_6:
+The file system does not support hard links. (Файлова система не підтримує жорсткі зв'язки)
+
+2) mklink /h між томом NTFS_6 і диском C:
+The system cannot move the file to a different disk drive. (Система не може перемістити файл на інший дисковий накопичувач)
+
+3) mklink /h всередині одного тому NTFS_6:
+Hardlink created for C:\mount\NTFS_6\ntfs6_h.txt &lt;&lt;===&gt;&gt; C:\mount\NTFS_6\ntfs6.txt
+
+4) mklink (символічне) на FAT_6:
+The file or directory is not a reparse point. (Цей том не підтримує точки повторної обробки)
+
+5) mklink (символічне) на NTFS_6 до файлу на диску C:
+symbolic link created for C:\mount\NTFS_6\tree6_sym.txt &lt;&lt;===&gt;&gt; C:\source_OS\.hidden\tree6.txt</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Детальний коментар до всіх 5 результатів експерименту:</b>
+        <br>• У виводі <code>dir C:\mount</code> обидві точки монтування томів відображаються як <code>&lt;JUNCTION&gt;</code>, але їхньою ціллю є не шлях до папки, а системний <b>GUID тому <code>\\?\Volume{...}\</code></b> — це дозволяє підключати більше 26 томів у Windows без використання літер алфавіту <code>A..Z</code>!
+        <br>• <b>Спроба 1 (Hard Link на FAT32) → Відмова:</b> FAT32 — це проста таблиця розміщення кластерів без індексних дескрипторів (MFT), тому кілька записів каталогу не можуть легально посилатися на один ланцюжок кластерів.
+        <br>• <b>Спроба 2 (Hard Link між двома томами NTFS) → Відмова:</b> хоча обидва томи мають NTFS, у тома <code>C:</code> і тома <code>NTFS_6</code> <b>різні власні таблиці MFT</b> з незалежною нумерацією записів, тому жорстке посилання неможливе між різними томами.
+        <br>• <b>Спроба 3 (Hard Link всередині одного тому NTFS_6) → Успіх:</b> обидва імені лежать в одній таблиці MFT тому <code>NTFS_6</code>.
+        <br>• <b>Спроба 4 (Symbolic Link на FAT32) → Відмова:</b> символічне посилання потребує атрибута <code>Reparse Point</code>, якого немає у FAT32.
+        <br>• <b>Спроба 5 (Symbolic Link між різними томами NTFS) → Успіх:</b> символічне посилання зберігає просто текстовий рядок шляху <code>C:\source_OS\.hidden\tree6.txt</code>, тому спокійно перетинає межі томів і дисків!
+      </div>
+      <div class="say-box">
+        <b>🎯 Загальний висновок по ЛР 5 для викладача:</b> «Практична перевірка на двох змонтованих томах (NTFS і FAT32) довела, що тільки NTFS підтримує апаратну абстракцію Reparse Points (для символічних посилань, точок з'єднання і монтування томів) та багатоіменні записи MFT (для жорстких посилань). При цьому жорсткі посилання працюють виключно в межах одного тому NTFS, а символічні — між будь-якими томами і мережевими ресурсами.»
+      </div>
     </div>
   </section>
 
@@ -1107,97 +1295,115 @@ type Z:\host_to_guest.txt</pre></div>
        ========================================================================= -->
   <section id="stem" class="lab-section" data-lab-section="stem">
     <div class="lab-header">
-      <div class="badge">STEM-проєкт • Дослідження Race Condition (ARM64 Apple M1 Pro vs x86_64)</div>
-      <h2>Стан гонитви (Race Condition), примітиви синхронізації та моделі пам'яті процесорів</h2>
-      <p>Файли C-коду в папці STEM PROJECT/код/: race_demo.c (56 рядків), sync_bench.c (115 рядків), bank.c (120 рядків), peterson.c (95 рядків)</p>
+      <div class="badge">STEM-проєкт • Дослідження Race Condition на процесорі Apple M1 Pro (ARM64)</div>
+      <h2>Стан гонитви (Race Condition), м'ютекси, Deadlock та слабка модель пам'яті ARM64</h2>
+      <p>Запуск на Mac: ./start_defense.sh 6 (папка STEM PROJECT/код/)</p>
     </div>
 
-    <div id="stem-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Інструкція для тебе (Як запустити C-код на Mac)</div>
-
+    <div id="stem-prep" class="part-banner" data-sub="🛠 Що тиснути">🛠 Частина 1. Що ввести для запуску STEM-проєкту</div>
     <div class="card card-prep">
-      <div class="card-title"><span>📋 Покрокова шпаргалка дій для STEM-проєкту</span></div>
-      <ol>
-        <li><b>Автоматичний запуск:</b> у <code>Terminal</code> на Mac введи:
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme" && ./start_defense.sh 6</pre></div>
-        </li>
-        <li><b>Ручний запуск окремих експериментів у папці <code>STEM PROJECT/код</code>:</b>
-          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme/STEM PROJECT/код"
-make
-./race_demo 4 1000000            # Показати втрату ~65-75% інкрементів через Race Condition
-./race_demo 4 1000000 --mutex    # Показати 0 втрат ( рівно 4 000 000 ) з м'ютексом
-./sync_bench none 4 1000000      # Порівняння швидкодії 6 режимів синхронізації
-./bank fine_naive 8 100000       # Демонстрація Deadlock (спрацює watchdog через 1 с)
-./bank fine_ordered 8 100000     # Усунення Deadlock впорядкуванням ресурсів
-./peterson plain 2000000         # Провал класичного алгоритму Петерсона на ARM64
-./peterson seq 2000000           # Коректна робота Петерсона з бар'єрами пам'яті seq_cst</pre></div>
-        </li>
-      </ol>
+      <div class="card-title"><span>📋 Запусти в Terminal на Mac:</span></div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>cd "/Users/taras/Desktop/unik/Operation Systme/STEM PROJECT/код"
+./race_demo 4 1000000
+./race_demo 4 1000000 --mutex
+./race_trace && ./race_trace --mutex
+./bank none 8 50000 && ./bank fine_ordered 8 50000
+./peterson plain 1000000 && ./peterson seq 1000000</pre></div>
     </div>
 
     <div id="stem-code" class="part-banner" data-sub="💻 Код C по рядках">💻 Частина 2. Построковий розбір C-коду з номерами рядків</div>
 
-    <!-- БЛОК 1 STEM -->
     <div class="card card-code">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">STEM PROJECT/код/race_demo.c (рядки 20–55)</span> Блок 1: Механізм виникнення Race Condition (LOAD–ADD–STORE) та захист pthread_mutex_t</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">race_demo.c (рядки 20–55) + bank.c (рядки 60–71) + peterson.c</span> Критична секція, впорядкування м'ютексів проти Deadlock та бар'єри пам'яті</span></label>
       </div>
       <div class="code-wrap">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>20 | static long counter = 0;                 /* спільний ресурс           */
-21 | static long iterations = 1000000;        /* інкрементів на потік      */
-22 | static int use_mutex = 0;                /* 1 — захистити м'ютексом   */
-23 | static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-25 | static void *worker(void *arg) {
-28 |     for (long i = 0; i < iterations; i++) {
-29 |         if (use_mutex) pthread_mutex_lock(&lock);    /* вхід у критичну секцію  */
-30 |         counter++;                                   /* критична секція         */
-31 |         if (use_mutex) pthread_mutex_unlock(&lock);  /* вихід з критичної секції */
-32 |     }
-33 |     return NULL;
-34 | }
-43 | for (int t = 0; t < threads; t++) pthread_create(&tid[t], NULL, worker, NULL);
-45 | for (int t = 0; t < threads; t++) pthread_join(tid[t], NULL);</pre>
+        <pre>/* 1. race_demo.c (рядки 28–32): неатомарний counter++ проти pthread_mutex_lock */
+28 | for (long i = 0; i < iterations; i++) {
+29 |     if (use_mutex) pthread_mutex_lock(&lock);
+30 |     counter++;   /* В асемблері ARM64 це 3 окремі інструкції: LDR -> ADD -> STR */
+31 |     if (use_mutex) pthread_mutex_unlock(&lock);
+32 | }
+
+/* 2. bank.c (рядки 60–70): чому у fine_naive виникає Deadlock, а у fine_ordered — ні */
+61 | pthread_mutex_lock(&acc_lock[from]); pthread_mutex_lock(&acc_lock[to]); /* DEADLOCK! */
+66 | int lo = from < to ? from : to, hi = from < to ? to : from;
+67 | pthread_mutex_lock(&acc_lock[lo]); pthread_mutex_lock(&acc_lock[hi]);   /* БЕЗ DEADLOCK */</pre>
       </div>
       <div class="fn-box">
-        <span class="fn-name">Рядок 30: counter++ (Чому неатомарний на рівні асемблера ARM64 / x86_64)</span>
-        <b>Що відбувається в процесорі:</b> компілятор розкладає <code>counter++</code> у три окремі машинні інструкції: <code>LDR x8, [x9]</code> (прочитати з пам'яті в регістр), <code>ADD x8, x8, #1</code> (додати 1 у регістрі), <code>STR x8, [x9]</code> (записати назад у пам'ять). Коли 4 потоки виконують це паралельно без блокування, вони читають застаріле значення і перезаписують результати один одного (<b>Lost Update</b> — губиться до 70% інкрементів).<br>
-        <span class="fn-name">Рядки 29, 31: pthread_mutex_lock(&amp;lock) та pthread_mutex_unlock(&amp;lock)</span>
-        <b>Функція:</b> забезпечує взаємне виключення (Mutual Exclusion) — у будь-який момент часу між рядками 29 і 31 може перебувати лише один потік, тому результат завжди рівно <code>4 000 000</code> (втрачено <code>0.00%</code>).
+        <span class="fn-name">Пояснення коду:</span>
+        • У <code>race_demo.c</code> без прапорця <code>--mutex</code> 4 потоки одночасно читають <code>counter</code> у регістри різних ядер M1 Pro, додають 1 і записують поверх чужих змін;<br>
+        • У <code>bank.c</code> при переказі між двома рахунками <code>from</code> і <code>to</code> захоплення локів у довільному порядку викликає взаємне блокування (Deadlock), а захоплення строго за зростанням номера рахунку (<code>lo &lt; hi</code>) руйнує циклічне очікування (4-ту умову Коффмана).
       </div>
     </div>
 
-    <!-- БЛОК 2 STEM -->
-    <div class="card card-code">
+    <div id="stem-res" class="part-banner" data-sub="🖥 Розбір виводу в консолі">🖥 Частина 3. Послідовний розбір результатів у консолі (STEM)</div>
+
+    <!-- КРОК 1 РЕЗУЛЬТАТІВ STEM -->
+    <div class="card card-result">
       <div class="card-title">
-        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="lines-badge">sync_bench.c (рядки 40–68) + bank.c (рядки 60–71) + peterson.c</span> Блок 2: Порівняння 6 механізмів синхронізації, Deadlock у банку та слабка модель пам'яті ARM64</span></label>
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 1 у консолі</span> Демонстрація втрати 71,94% інкрементів у race_demo та трасування race_trace</span></label>
       </div>
-      <div class="code-wrap">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre>/* sync_bench.c (рядки 59–67): Атомарний інкремент проти локальної акумуляції */
-59 | case M_ATOMIC:
-60 |     for (long i = 0; i < iters; i++) atomic_fetch_add(&counter_a, 1); /* інструкція LDADDAL на ARM64 */
-61 |     break;
-62 | case M_LOCAL: {
-63 |     volatile long local = 0;         /* приватна змінна у стеку потоку без конкуренції кеш-ліній */
-64 |     for (long i = 0; i < iters; i++) local++;
-65 |     pthread_mutex_lock(&mtx); counter += local; pthread_mutex_unlock(&mtx);
-66 |     break;
-67 | }
-/* bank.c (рядки 60–71): Взаємне блокування (Deadlock) та його усунення */
-60 | case 2: /* fine_naive -> DEADLOCK при зустрічних переказах A->B та B->A */
-61 |     pthread_mutex_lock(&acc_lock[from]); pthread_mutex_lock(&acc_lock[to]);
-65 | case 3: /* fine_ordered -> завжди блокуємо спочатку менший індекс рахунку lo, потім hi */
-66 |     int lo = from < to ? from : to, hi = from < to ? to : from;
-67 |     pthread_mutex_lock(&acc_lock[lo]); pthread_mutex_lock(&acc_lock[hi]);</pre>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>./race_demo 4 1000000
+./race_demo 4 1000000 --mutex
+./race_trace</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">Режим: без захисту потоків:  4  ітерацій: 1000000
+Очікувано:    4000000   Отримано:    1122267   Втрачено:   2877733 (71.94 %)  &lt;-- RACE CONDITION
+Режим: з м'ютексом потоків:  4  ітерацій: 1000000
+Очікувано:    4000000   Отримано:    4000000   Втрачено:         0 (0.00 %)  OK
+
+=== БЕЗ СИНХРОНІЗАЦІЇ ===
+Початковий баланс: 100 грн
+[  0.06 мс] Банкомат-1: прочитав баланс = 100
+[  5.37 мс] Банкомат-2: прочитав баланс = 100
+[ 24.09 мс] Банкомат-1: записав баланс  = 150 (+50)
+[ 25.58 мс] Банкомат-2: записав баланс  = 130 (+30)
+Підсумковий баланс: 130 грн (очікувано 180) -> ВТРАЧЕНО ОНОВЛЕННЯ!</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• Замість <code>4 000 000</code> без м'ютекса лічильник дійшов лише до <b><code>1 122 267</code></b> — тобто <b><code>2 877 733</code> операцій інкременту (<code>71.94%</code>!) просто зникли</b>, бо 4 ядра M1 Pro перезаписували регістрові значення один одного;
+        <br>• Трасування <code>race_trace</code> по мілісекундах показує фізику цієї помилки: обидва банкомати прочитали старий баланс <code>100 грн</code>, перший записав <code>150</code>, а другий за мить поверх нього записав <code>130</code> — поповнення на 50 грн безслідно стерлося!
+        <br>• Із прапорцем <code>--mutex</code> втрачено рівно <code>0 (0.00%)</code>, результат <code>4 000 000</code>.
       </div>
-      <div class="fn-box">
-        <span class="fn-name">sync_bench.c (рядки 44–67): Чому local найшвидший, а mutex/sem повільніші за atomic?</span>
-        • <code>atomic_fetch_add</code> (рядок 60) використовує апаратну атомарну інструкцію процесора (<code>LDADDAL</code> на ARMv8.1+ Apple M1 або <code>LOCK XADD</code> на x86) без переходу в ядро ОС;<br>
-        • <code>M_LOCAL</code> (рядки 62–66) усуває боротьбу ядер за спільну кеш-лінію (cache-line bouncing): потік рахує у власній стековій змінній <code>local</code> і бере м'ютекс лише <b>1 раз у кінці</b>.<br>
-        <span class="fn-name">bank.c (рядки 60–71): Умова Коффмана (Circular Wait) і чому виникає Deadlock</span>
-        У режимі <code>fine_naive</code> (рядок 61) потік 1 бере лок рахунку 2 і чекає рахунок 5, а потік 2 одночасно бере рахунок 5 і чекає рахунок 2 — виникає циклічне очікування (Deadlock). У рядках 66–67 (<code>fine_ordered</code>) ми впорядковуємо захоплення завжди за зростанням номера рахунку (<code>lo &lt; hi</code>), що математично унеможливлює цикл.<br>
-        <span class="fn-name">peterson.c та litmus_sb.c: Чому класичний алгоритм Петерсона ламається на Apple M1 (ARM64)?</span>
-        Процесор має буфер запису (Store Buffer) і може переупорядкувати запис <code>flag[i] = 1</code> та читання чужого прапорця <code>flag[1-i]</code> (Store-Load reordering). На слабкій моделі пам'яті ARM64 без бар'єрів пам'яті (<code>DMB ISH</code> / <code>memory_order_seq_cst</code>) обидва потоки одночасно проходять у критичну секцію!
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Цей дослід доводить, що навіть елементарна операція <code>counter++</code> у мові C не є атомарною для процесора (бо складається з <code>LDR</code>, <code>ADD</code>, <code>STR</code>), тому будь-яка модифікація спільних даних кількома потоками обов'язково вимагає взаємного виключення або атомарних інструкцій.»
+      </div>
+    </div>
+
+    <!-- КРОК 2 РЕЗУЛЬТАТІВ STEM -->
+    <div class="card card-result">
+      <div class="card-title">
+        <label class="step-check"><input type="checkbox" onchange="toggleDone(this)"><span><span class="step-badge">Крок 2 у консолі</span> Банківські перекази (bank) та провал класичного алгоритму Петерсона на ARM64 (peterson)</span></label>
+      </div>
+      <span class="sub-label">⌨️ Що ввели:</span>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>./bank none 8 50000 && ./bank fine_ordered 8 50000
+./peterson plain 1000000 && ./peterson seq 1000000</pre></div>
+
+      <span class="sub-label">🖥 Що з'явилось у консолі:</span>
+      <div class="code-wrap"><pre class="console-out">Режим: none         потоків: 8, переказів: 400000
+  сума в банку: 60770 (має бути 10000), різниця: +50770
+  випадків від'ємного балансу: 1, мінімальний баланс: 262
+  час: 32.9 мс -> ІНВАРІАНТ ПОРУШЕНО
+Режим: fine_ordered потоків: 8, переказів: 400000
+  сума в банку: 10000 (має бути 10000), різниця: +0
+  випадків від'ємного балансу: 0, мінімальний баланс: 84
+  час: 52.9 мс -> ІНВАРІАНТ ЗБЕРЕЖЕНО
+
+Петерсон (звичайні змінні): очікувано 2000000, отримано 1999970, порушень взаємного виключення >= 30 (0.0015 %), 126.4 мс -> АЛГОРИТМ НЕ ПРАЦЮЄ
+Петерсон (seq_cst атомарні): очікувано 2000000, отримано 2000000, порушень взаємного виключення >= 0 (0.0000 %), 198.1 мс -> OK</pre></div>
+
+      <div class="comment-box">
+        <b>💬 Коментар до того, що вивело:</b>
+        <br>• У банку без синхронізації (<code>none</code>) загальна сума грошей на 10 рахунках замість незмінних <code>10 000</code> перетворилася на <b><code>60 770</code> (+50 770 «зайвих» грошей з повітря!)</b> і зафіксовано від'ємний баланс через гонитву <i>Check-Then-Act</i>. У режимі <code>fine_ordered</code> сума ідеально збережена (<code>10 000</code>, різниця <code>+0</code>) і немає Deadlock;
+        <br>• Класичний підручниковий алгоритм Петерсона (<code>peterson plain</code>) на нашому процесорі Apple M1 Pro <b>зламався: зафіксовано ≥ 30 пробоїв критичної секції</b>! А варіант із бар'єрами пам'яті <code>memory_order_seq_cst</code> (<code>peterson seq</code>) відпрацював із <b>0 порушень</b>.
+      </div>
+      <div class="say-box">
+        <b>🎯 Висновок для викладача:</b> «Останній експеримент демонструє фундаментальну властивість сучасних процесорів ARM64 зі слабкою моделлю пам'яті (Weak Memory Ordering): апаратний буфер запису (Store Buffer) переупорядковує запис прапорця <code>flag[i]=1</code> і читання чужого прапорця <code>flag[1-i]</code>, тому класичний алгоритм Петерсона без апаратних бар'єрів пам'яті <code>DMB ISH</code> (<code>seq_cst</code>) не працює на реальному залізі.»
       </div>
     </div>
   </section>
@@ -1255,7 +1461,6 @@ make
 
   function copyCode(btn) {
     const raw = btn.nextElementSibling.innerText;
-    // Strip leading "01 | " line numbers when copying so commands can be pasted directly!
     const clean = raw.split('\n').map(l => l.replace(/^\s*\d+\s*\|\s?/, '')).join('\n');
     navigator.clipboard.writeText(clean).then(() => {
       const old = btn.textContent;
@@ -1269,7 +1474,6 @@ make
     if (card) card.classList.toggle('done', cb.checked);
   }
 
-  // Theme toggle
   const themeBtn = document.getElementById('themeBtn');
   themeBtn.addEventListener('click', () => {
     const root = document.documentElement;
@@ -1278,7 +1482,6 @@ make
     themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
   });
 
-  // Font size toggle
   const fontBtn = document.getElementById('fontBtn');
   const sizes = [16, 18, 20, 14];
   let sIdx = 0;
