@@ -117,6 +117,11 @@ h1 { font-size: clamp(2rem, 6vw, 3.45rem); line-height: 1.08; margin: .45rem 0 1
 }
 .action strong, .say-label { margin-right: .25rem; }
 .say-label { color: var(--cyan); font-size: .84rem; display: block; }
+.command + details { margin-bottom: 1rem; }
+.live-list { margin: .35rem 0 1rem; padding-left: 1.4rem; overflow-wrap: anywhere; }
+.live-list li { margin-bottom: .4rem; }
+.live-list li::marker { color: var(--cyan); }
+.explanation p { margin: .35rem 0 .65rem; color: var(--muted); }
 .speech { font-size: var(--reading); line-height: 1.55; margin: .25rem 0 .8rem; }
 details { margin: .75rem 0 0; }
 summary { color: var(--cyan); cursor: pointer; }

@@ -123,6 +123,13 @@ function renderLab(key) {
   const prep = makeCard(0, 'Перед захистом');
   prep.append(element('p', 'action', 'Відкрий суфлер для себе. На Mac запусти команду нижче. Відкриється локальний PDF. Після вступу повернися в Термінал і натискай Enter для кожного кроку.'));
   prep.append(command('Термінал на Mac', hostCommand(key), 'Копіювати запуск'));
+  if (lab.vm) {
+    const vm = element('details');
+    vm.append(element('summary', '', 'Запустити ВМ перед захистом'));
+    if (lab.vm.includes('QEMU')) vm.append(element('p', 'location', 'Запусти в окремій вкладці Термінала й залиш її відкритою, поки працює Windows.'));
+    vm.append(command(lab.vm + ' · Термінал на Mac', hostCommand(key, 'vm'), 'Копіювати запуск ВМ'));
+    prep.append(vm);
+  }
   speech(prep, lab.intro);
 
   const stepCards = lab.steps.map((step, index) => {
@@ -132,7 +139,17 @@ function renderLab(key) {
     const action = element('p', 'action');
     action.append(element('strong', '', 'Enter ' + number + '. '), document.createTextNode(step.look));
     card.append(action);
+    if (step.live) {
+      const list = element('ol', 'live-list');
+      for (const instruction of step.live) list.append(element('li', '', instruction));
+      card.append(element('strong', 'say-label', 'Жива демонстрація'), list);
+    }
     speech(card, step.say);
+    if (step.explain) {
+      const explanation = element('details', 'explanation');
+      explanation.append(element('summary', '', 'Що ще пояснити'), element('p', '', step.explain));
+      card.append(explanation);
+    }
     const commands = element('details');
     commands.append(element('summary', '', 'Команди для цього кроку'));
     commands.append(command('Відкрити окремо · Термінал на Mac', hostCommand(key, number), 'Копіювати крок'));
