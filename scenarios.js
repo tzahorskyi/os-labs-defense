@@ -14,7 +14,7 @@ const qemuLaunch = {
 const qemuLab67 = {
   label: 'Термінал macOS · запуск QEMU',
   code: [
-    'cd "$HOME/VMs/oslabs/lab67" && qemu-system-aarch64 -name OS-Labs-6-7 -M virt,highmem=on -accel hvf -cpu host -smp 4 -m 3072',
+    'cd "$HOME/VMs/oslabs/lab67" && qemu-system-aarch64 -name OS-Labs-6-7 -M virt,highmem=on -accel hvf -cpu host -smp 4 -m 4096',
     '-drive if=pflash,format=raw,readonly=on,file=/opt/homebrew/share/qemu/edk2-aarch64-code.fd',
     '-drive if=pflash,format=raw,file=vars.fd',
     '-device virtio-gpu-pci,xres=1440,yres=900 -device qemu-xhci,id=xhci -device usb-kbd -device usb-tablet',
@@ -451,6 +451,7 @@ const scenarios = {
         actions: [
           { text: 'У Блокноті прокрути до доданого виводу dir для OS і порівняння FC. Покажи, що вони розділені двома порожніми рядками.', label: 'Win+R у Windows', code: 'notepad C:\\Lab67\\LR7\\result6.txt' },
           { text: 'Для додаткових питань відкрий Win+R → diskmgmt.msc. Покажи два томи й властивості диска. Їхні GUID доступні через mountvol, а кластери та MBR — через PowerShell із ЛР6.' },
+          { text: 'Якщо запитають про додаткові досліди, у журналі покажи стискання на 8 МБ, зміну мітки LAB7TEST на LAB7ALT і перевірку, що видалення посилань залишило вихідний файл на місці.', label: 'Win+R у Windows', code: 'notepad C:\\Lab67\\extra7.txt' },
         ],
         say: 'У файлі є список OS після відновлення зв’язків і порівняння, що показує відмінність після перенесення.',
       },
