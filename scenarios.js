@@ -11,6 +11,19 @@ const qemuLaunch = {
   ].join(' \\' + '\n  '),
 };
 
+const qemuLab67 = {
+  label: 'Термінал macOS · запуск QEMU',
+  code: [
+    'cd "$HOME/VMs/oslabs/lab67" && qemu-system-aarch64 -name OS-Labs-6-7 -M virt,highmem=on -accel hvf -cpu host -smp 4 -m 3072',
+    '-drive if=pflash,format=raw,readonly=on,file=/opt/homebrew/share/qemu/edk2-aarch64-code.fd',
+    '-drive if=pflash,format=raw,file=vars.fd',
+    '-device virtio-gpu-pci,xres=1440,yres=900 -device qemu-xhci,id=xhci -device usb-kbd -device usb-tablet',
+    '-drive if=none,id=hd,file=windows.qcow2,format=qcow2,discard=unmap -device nvme,drive=hd,serial=WINSYS,bootindex=1',
+    '-netdev user,id=n0 -device virtio-net-pci,netdev=n0 -display cocoa -rtc base=localtime',
+  ].join(' \\' + '\n  '),
+};
+
+
 const scenarios = {
   lab1: {
     label: 'ЛР 1',
@@ -339,6 +352,115 @@ const scenarios = {
       ['Чим розділ відрізняється від тому?', 'Розділ — область диска. Том — логічна одиниця зберігання, яку ОС монтує і може відкрити через файлову систему.'],
       ['Чи можна змонтувати FAT32 в каталог NTFS?', 'Так. Каталог точки монтування розташований на NTFS. Змонтований том може бути FAT32.'],
       ['Що станеться, якщо видалити одне ім’я hard link?', 'Дані залишаться доступними через інше ім’я. Файл звільняється після видалення останнього посилання та закриття відкритих дескрипторів.'],
+    ],
+  },
+
+  lab6: {
+    label: 'ЛР 6',
+    title: 'DiskPart і віртуальний диск',
+    topic: 'MBR, форматування та точки монтування · варіант 6',
+    minutes: 7,
+    prep: [
+      { text: 'Відкрий звіт із теки lab6. На Mac переключись у вікно Windows для ЛР6–7. Якщо ВМ закрита, запусти її прямою командою нижче. Залиш Термінал Mac відкритим, поки працює QEMU.', ...qemuLab67 },
+      { text: 'У Windows натисни Win+R → cmd → Ctrl+Shift+Enter. Підтвердь запит адміністратора. Занеси команди у вікно Windows, а не в Термінал Mac.' },
+    ],
+    intro: 'У шостій роботі я створив на Windows навчальний VHD, розмітив його як MBR, підготував NTFS і FAT32 та змонтував томи в каталоги.',
+    steps: [
+      {
+        title: 'Вибери готовий VHD у DiskPart',
+        nav: 'VHD і MBR',
+        where: 'CMD від адміністратора → DiskPart',
+        actions: [
+          { text: 'У CMD введи diskpart і натисни Enter. У рядку DISKPART> виконай команди нижче. У detail vdisk покажи ім’я Lab6.vhd, стан Attached і розмір 1024 MB. Якщо стан Detached, виконай attach vdisk і повтори detail vdisk.', label: 'DISKPART>', code: 'select vdisk file=C:\\Lab67\\Lab6.vhd\ndetail vdisk\nlist disk' },
+          { text: 'У list disk знайди номер Associated disk# з detail vdisk. Відсутність зірочки в колонці GPT для цього диска відповідає MBR. Під час показу працюй з готовим VHD.' },
+        ],
+        say: 'Ось окремий VHD на 1 ГіБ. DiskPart показує його як прикріплений диск зі стилем MBR.',
+      },
+      {
+        title: 'Покажи два розділи й розмір кластера',
+        nav: 'Розділи',
+        where: 'DiskPart, потім PowerShell',
+        actions: [
+          { text: 'На вибраному VHD покажи два рядки Primary і числа 512 та 510 МБ. Невелика різниця з половиною гігабайта пов’язана із службовим місцем та вирівнюванням.', label: 'DISKPART>', code: 'list partition\nlist volume\nexit' },
+          { text: 'Відкрий PowerShell від адміністратора. Перший рядок виведе MBR для вибраного образу; другий виведе файлові системи й кластери обох томів.', label: 'PowerShell у Windows', code: "Get-DiskImage -ImagePath 'C:\\Lab67\\Lab6.vhd' | Get-Disk | Format-List Number,PartitionStyle,Size,Signature\nGet-Volume -FileSystemLabel NTFS_6,FAT_6 | Format-Table FileSystemLabel,FileSystem,AllocationUnitSize" },
+        ],
+        say: 'NTFS_6 відформатовано швидко зі стандартним кластером 4096 байт. Для FAT_6 у DiskPart я задав unit=2048. Обидва розділи первинні.',
+      },
+      {
+        title: 'Покажи точки монтування і result6.txt',
+        nav: 'Монтування',
+        where: 'CMD та Провідник Windows',
+        actions: [
+          { text: 'У CMD виконай mountvol. Покажи дві різні адреси Volume виведені для точок NTFS_6 та FAT_6. У Провіднику відкрий C:\\mount і зайди в обидва каталоги.', label: 'CMD у Windows', code: 'mountvol C:\\mount\\NTFS_6 /L\nmountvol C:\\mount\\FAT_6 /L' },
+          { text: 'Відкрий готовий файл результатів. Покажи початкові порожні рядки, вивід list volume і два томи без літер із шляхами C:\\mount.', label: 'Win+R у Windows', code: 'notepad C:\\Lab67\\LR6\\result6.txt' },
+        ],
+        say: 'Спочатку призначив томам літери N і F, потім видалив їх. Точки монтування в каталогах залишилися, і це видно у файлі результатів.',
+      },
+    ],
+    conclusion: 'На навчальному MBR-диску обидва томи доступні через каталоги. Значення кластерів і точки монтування перевірив у Windows.',
+    qa: [
+      ['Що таке VHD?', 'Файл, який Windows може підключити та показати як диск для розмітки й форматування.'],
+      ['Що означає розмір кластера?', 'Це одиниця виділення місця файловою системою. У цьому досліді NTFS використовує 4096 байт, FAT32 — 2048.'],
+      ['Чому у томів немає літер?', 'Томи змонтовано в каталогах NTFS. Літера диска є ще одним можливим шляхом доступу.'],
+    ],
+  },
+
+  lab7: {
+    label: 'ЛР 7',
+    title: 'Перенесення OS і перевірка зв’язків',
+    topic: 'Junction, symlink і hard link між томами · варіант 6',
+    minutes: 8,
+    prep: [
+      { text: 'Відкрий звіт із теки lab7. Використовуй ту саму Windows, що для ЛР6. Якщо вікно закрите, відкрий копію ВМ з теки lab67 на Mac цією командою.', ...qemuLab67 },
+      { text: 'У Windows перевір, що C:\\mount\\NTFS_6 відкривається. Якщо після перезапуску каталог не відкривається, запусти PowerShell від адміністратора, приєднай підготовлений VHD і повторно відкрий каталог.', label: 'PowerShell у Windows', code: "Mount-DiskImage -ImagePath 'C:\\Lab67\\Lab6.vhd' -NoDriveLetter" },
+    ],
+    intro: 'Покажу, що сталося з каталогом OS, коли я переніс його на інший том. Потім перевірю відновлені зв’язки та порівняю файли.',
+    steps: [
+      {
+        title: 'Покажи OS у новій теці',
+        nav: 'Перенесення',
+        where: 'Провідник Windows',
+        actions: [
+          { text: 'Натисни Win+E, потім Ctrl+L. Встав шлях і натисни Enter. Покажи, що OS тепер у C:\\mount\\NTFS_6. Для показу самого перенесення використай скріншот: каталог було вирізано Ctrl+X з профілю й вставлено Ctrl+V у точку монтування.', label: 'Адресний рядок Провідника', code: 'C:\\mount\\NTFS_6\\OS' },
+        ],
+        say: 'Я переніс OS у Провіднику. Після перенесення labs і lects стали звичайними каталогами, тому їхні зв’язки довелося створити знову.',
+      },
+      {
+        title: 'Покажи junction і symlink',
+        nav: 'Junction і symlink',
+        where: 'CMD від адміністратора в Windows',
+        actions: [
+          { text: 'Виконай команди по черзі. У dir /a покажи <JUNCTION> біля labs і <SYMLINKD> біля lects. Виведи вміст обох тек. Порівняй адресу в дужках для labs з ідентифікатором C:, який показує mountvol.', label: 'CMD у Windows', code: 'mountvol C:\\ /L\ncd /d C:\\mount\\NTFS_6\\OS\ndir /a\ndir labs\ndir lects' },
+        ],
+        say: 'Для labs ціль задана через GUID тому, для lects — через абсолютний шлях C:. Через обидва зв’язки відкриваються відповідні каталоги source_OS.',
+      },
+      {
+        title: 'Доведи, що hard link втрачено',
+        nav: 'Hard link',
+        where: 'CMD у Windows',
+        actions: [
+          { text: 'Виконай fsutil для обох файлів. Після перенесення кожна перевірка показує окремий шлях на своєму томі. Порівняй із двома шляхами у результаті ЛР5.', label: 'CMD у Windows', code: 'fsutil hardlink list C:\\source_OS\\.hidden\\tree6.txt\nfsutil hardlink list C:\\mount\\NTFS_6\\OS\\links\\tree6_h.txt' },
+          { text: 'Запусти порівняння. Знайди доданий рядок з ім’ям користувача у перенесеному файлі. В оригінальному файлі цього рядка немає.', label: 'CMD у Windows', code: 'fc /L C:\\mount\\NTFS_6\\OS\\links\\tree6_h.txt C:\\source_OS\\.hidden\\tree6.txt' },
+        ],
+        say: 'Hard link може пов’язувати імена лише в межах одного тому. Після перенесення це два окремі файли, тому зміна перенесеного файлу не змінила оригінал.',
+      },
+      {
+        title: 'Відкрий файл результатів і властивості диска',
+        nav: 'Результат',
+        where: 'Windows · CMD, Notepad і Керування дисками',
+        actions: [
+          { text: 'У Блокноті прокрути до доданого виводу dir для OS і порівняння FC. Покажи, що вони розділені двома порожніми рядками.', label: 'Win+R у Windows', code: 'notepad C:\\Lab67\\LR7\\result6.txt' },
+          { text: 'Для додаткових питань відкрий Win+R → diskmgmt.msc. Покажи два томи й властивості диска. Їхні GUID доступні через mountvol, а кластери та MBR — через PowerShell із ЛР6.' },
+        ],
+        say: 'У файлі є список OS після відновлення зв’язків і порівняння, що показує відмінність після перенесення.',
+      },
+    ],
+    conclusion: 'Junction і symlink відновлено. Hard link між різними томами не зберігся, що видно з окремих списків і порівняння файлів.',
+    qa: [
+      ['Чим розділ відрізняється від тому?', 'Розділ — область на диску. Том — логічний об’єкт, який ОС може змонтувати й відкрити.'],
+      ['Навіщо GUID тому, якщо є літера?', 'GUID дає змогу адресувати том навіть після зміни букви або її видалення.'],
+      ['Чим відрізняються mountvol і mklink?', 'Mountvol призначає точку доступу до тому. Mklink створює зв’язок файлової системи, зокрема junction, symlink або hard link.'],
+      ['Яка умова для жорсткого зв’язку?', 'Обидва імені належать тому самому файловому об’єкту на одному томі NTFS.'],
     ],
   },
 
