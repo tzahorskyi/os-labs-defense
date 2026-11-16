@@ -79,6 +79,17 @@ function speech(card, text) {
   card.append(element('strong', 'say-label', 'Що казати'), element('p', 'speech', text));
 }
 
+function manualActions(card, actions) {
+  const list = element('ol', 'manual-list');
+  for (const action of actions) {
+    const item = element('li');
+    item.append(element('p', '', action.text));
+    if (action.code) item.append(command(action.label, action.code));
+    list.append(item);
+  }
+  card.append(list);
+}
+
 function makeCard(number, title, numbered = true) {
   const card = element('article', 'card');
   card.id = 'step-' + number;
@@ -113,22 +124,26 @@ function renderLab(key) {
   const last = lab.steps.length + 1;
   for (let index = 0; index <= last; index++) {
     const isDemo = index > 0 && index < last;
-    const label = isDemo ? 'Крок ' + index : index ? 'Висновок' : 'Старт';
+    const step = isDemo ? lab.steps[index - 1] : null;
+    const label = step ? step.nav || 'Крок ' + index : index ? 'Висновок' : 'Старт';
     const link = element('a', '', label);
     link.href = route(key, index);
-    if (isDemo) link.setAttribute('aria-label', label + ' · ' + lab.steps[index - 1].title);
+    if (step) link.setAttribute('aria-label', label + ' · ' + step.title);
     stepNav.append(link);
   }
 
   const prep = makeCard(0, 'Перед захистом');
-  prep.append(element('p', 'action', 'Відкрий суфлер для себе. На Mac запусти команду нижче. Відкриється локальний PDF. Після вступу повернися в Термінал і натискай Enter для кожного кроку.'));
-  prep.append(command('Термінал на Mac', hostCommand(key), 'Копіювати запуск'));
-  if (lab.vm) {
-    const vm = element('details');
-    vm.append(element('summary', '', 'Запустити ВМ перед захистом'));
-    if (lab.vm.includes('QEMU')) vm.append(element('p', 'location', 'Запусти в окремій вкладці Термінала й залиш її відкритою, поки працює Windows.'));
-    vm.append(command(lab.vm + ' · Термінал на Mac', hostCommand(key, 'vm'), 'Копіювати запуск ВМ'));
-    prep.append(vm);
+  if (lab.prep) {
+    manualActions(prep, lab.prep);
+  } else {
+    prep.append(element('p', 'action', 'Відкрий суфлер для себе. На Mac запусти команду нижче. Відкриється локальний PDF. Після вступу повернися в Термінал і натискай Enter для кожного кроку.'));
+    prep.append(command('Термінал на Mac', hostCommand(key), 'Копіювати запуск'));
+    if (lab.vm) {
+      const vm = element('details');
+      vm.append(element('summary', '', 'Запустити ВМ перед захистом'));
+      vm.append(command(lab.vm + ' · Термінал на Mac', hostCommand(key, 'vm'), 'Копіювати запуск ВМ'));
+      prep.append(vm);
+    }
   }
   speech(prep, lab.intro);
 
@@ -136,6 +151,11 @@ function renderLab(key) {
     const number = index + 1;
     const card = makeCard(number, step.title);
     card.append(element('p', 'location', step.where));
+    if (step.actions) {
+      manualActions(card, step.actions);
+      speech(card, step.say);
+      return card;
+    }
     const action = element('p', 'action');
     action.append(element('strong', '', 'Enter ' + number + '. '), document.createTextNode(step.look));
     card.append(action);

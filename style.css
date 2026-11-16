@@ -121,6 +121,10 @@ h1 { font-size: clamp(2rem, 6vw, 3.45rem); line-height: 1.08; margin: .45rem 0 1
 .live-list { margin: .35rem 0 1rem; padding-left: 1.4rem; overflow-wrap: anywhere; }
 .live-list li { margin-bottom: .4rem; }
 .live-list li::marker { color: var(--cyan); }
+.manual-list { margin: .85rem 0 1rem; padding-inline-start: 1.5rem; overflow-wrap: anywhere; }
+.manual-list > li { padding-inline-start: .2rem; margin: 0 0 .8rem; }
+.manual-list > li > p { margin: 0; }
+.manual-list > li::marker { color: var(--gold); font-weight: bold; }
 .explanation p { margin: .35rem 0 .65rem; color: var(--muted); }
 .speech { font-size: var(--reading); line-height: 1.55; margin: .25rem 0 .8rem; }
 details { margin: .75rem 0 0; }
