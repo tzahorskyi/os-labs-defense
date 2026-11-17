@@ -112,6 +112,9 @@ function makeCard(number, title, numbered = true) {
 
 function renderLab(key) {
   const lab = scenarios[key];
+  const quick = quickDefense[key];
+  const steps = quick || lab.steps;
+  cards.classList.toggle('quick', Boolean(quick));
   byId('title').textContent = lab.title;
   byId('topic').textContent = lab.label + ' · ' + lab.topic;
   document.title = lab.label + ' · ' + lab.title + ' · Суфлер';
@@ -121,10 +124,10 @@ function renderLab(key) {
     else link.removeAttribute('aria-current');
   }
   stepNav.replaceChildren();
-  const last = lab.steps.length + 1;
+  const last = steps.length + 1;
   for (let index = 0; index <= last; index++) {
     const isDemo = index > 0 && index < last;
-    const step = isDemo ? lab.steps[index - 1] : null;
+    const step = isDemo ? steps[index - 1] : null;
     const label = step ? step.nav || 'Крок ' + index : index ? 'Висновок' : 'Старт';
     const link = element('a', '', label);
     link.href = route(key, index);
@@ -133,7 +136,13 @@ function renderLab(key) {
   }
 
   const prep = makeCard(0, 'Перед захистом');
-  if (lab.prep) {
+  if (quick) {
+    const launch = 'cd "$HOME/Desktop/unik/Operation Systme" && ./Показ.command ' + key.slice(3);
+    prep.append(element('p', 'action', 'На Mac відкрий «Показ.command» і вибери роботу. У вікні показу натисни «Автопоказ» або гортай стрілкою →. Цю сторінку можна тримати на телефоні.'));
+    const terminal = element('details');
+    terminal.append(element('summary', '', 'Запуск через Термінал'), command('Одна команда на Mac', launch, 'Копіювати запуск'));
+    prep.append(terminal, element('p', 'location', 'Для показу у ВМ вибери режим «Наживо» у тому самому меню запуску.'));
+  } else if (lab.prep) {
     manualActions(prep, lab.prep);
   } else {
     prep.append(element('p', 'action', 'Відкрий суфлер для себе. На Mac запусти команду нижче. Відкриється локальний PDF. Після вступу повернися в Термінал і натискай Enter для кожного кроку.'));
@@ -145,11 +154,21 @@ function renderLab(key) {
       prep.append(vm);
     }
   }
-  speech(prep, lab.intro);
+  if (!quick) speech(prep, lab.intro);
 
-  const stepCards = lab.steps.map((step, index) => {
+  const stepCards = steps.map((step, index) => {
     const number = index + 1;
     const card = makeCard(number, step.title);
+    if (quick) {
+      card.append(element('strong', 'say-label', 'Куди дивитися'), element('p', 'quick-look', step.where));
+      speech(card, step.say);
+      if (step.live) {
+        const live = element('details');
+        live.append(element('summary', '', 'Як показати наживо'), element('p', 'action', step.live));
+        card.append(live);
+      }
+      return card;
+    }
     card.append(element('p', 'location', step.where));
     if (step.actions) {
       manualActions(card, step.actions);
@@ -190,7 +209,7 @@ function renderLab(key) {
 }
 
 function go(step, scroll) {
-  const count = scenarios[currentLab].steps.length;
+  const count = (quickDefense[currentLab] || scenarios[currentLab].steps).length;
   const last = count + 1;
   currentStep = Math.min(last, Math.max(0, step));
   const card = byId('step-' + currentStep);

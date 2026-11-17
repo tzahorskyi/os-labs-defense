@@ -82,6 +82,8 @@ h1 { font-size: clamp(2rem, 6vw, 3.45rem); line-height: 1.08; margin: .45rem 0 1
 .steps-nav a { font-size: .85rem; }
 .steps-nav a[aria-current] { border-color: var(--cyan); color: var(--cyan); }
 .cards { display: grid; gap: 1rem; }
+.cards.quick .card:not(.current) { display: none; }
+.quick-look { margin: .3rem 0 1.25rem; }
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
