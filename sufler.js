@@ -114,6 +114,7 @@ function renderLab(key) {
   const lab = scenarios[key];
   const quick = quickDefense[key];
   const steps = quick || lab.steps;
+  document.body.classList.toggle('quick-mode', Boolean(quick));
   cards.classList.toggle('quick', Boolean(quick));
   byId('title').textContent = lab.title;
   byId('topic').textContent = lab.label + ' · ' + lab.topic;
@@ -138,10 +139,18 @@ function renderLab(key) {
   const prep = makeCard(0, 'Перед захистом');
   if (quick) {
     const launch = 'cd "$HOME/Desktop/unik/Operation Systme" && ./Показ.command ' + key.slice(3);
-    prep.append(element('p', 'action', 'На Mac відкрий «Показ.command» і вибери роботу. У вікні показу натисни «Автопоказ» або гортай стрілкою →. Цю сторінку можна тримати на телефоні.'));
+    prep.append(element('p', 'action', 'На Mac відкрий «Показ.command», введи номер роботи й натисни Enter. У вікні показу натисни «Автопоказ» або гортай стрілкою →. Цю сторінку можна тримати на телефоні.'));
     const terminal = element('details');
     terminal.append(element('summary', '', 'Запуск через Термінал'), command('Одна команда на Mac', launch, 'Копіювати запуск'));
-    prep.append(terminal, element('p', 'location', 'Для показу у ВМ вибери режим «Наживо» у тому самому меню запуску.'));
+    const live = element('details');
+    const windowsFile = {lab4: '4-PerfMon', lab5: '5-Files', lab6: '6-DiskPart', lab7: '7-Links'}[key];
+    const guest = key === 'lab3'
+      ? 'В Ubuntu відкрий Термінал (Ctrl+Alt+T), натисни Ctrl+Shift+V і Enter.'
+      : 'У Windows натисни Win+E → «Цей ПК» → OSLABSHOW. ' +
+        (key === 'lab4' ? 'Двічі клацни ' : 'Правою кнопкою → «Запуск від імені адміністратора» на файлі ') +
+        windowsFile + '.';
+    live.append(element('summary', '', 'Показ наживо у ВМ'), element('p', 'action', 'Після номера роботи введи 2 і натисни Enter. ' + guest));
+    prep.append(live, terminal);
   } else if (lab.prep) {
     manualActions(prep, lab.prep);
   } else {
@@ -244,7 +253,7 @@ function showHash() {
 
 function move(delta) {
   const step = currentStep + delta;
-  if (step < 0 || step > scenarios[currentLab].steps.length + 1) return;
+  if (step < 0 || step > (quickDefense[currentLab] || scenarios[currentLab].steps).length + 1) return;
   window.location.hash = route(currentLab, step);
 }
 
@@ -268,7 +277,7 @@ function renderTimer() {
   const seconds = Math.floor(elapsed / 1000);
   const two = number => String(number).padStart(2, '0');
   clock.textContent = two(Math.floor(seconds / 60)) + ':' + two(seconds % 60) +
-    ' / ' + two(scenarios[currentLab].minutes) + ':00';
+    ' / ' + two(quickDefense[currentLab] ? 5 : scenarios[currentLab].minutes) + ':00';
 }
 
 function resetTimer() {
@@ -353,7 +362,7 @@ document.querySelector('.skip').addEventListener('click', event => {
 document.addEventListener('keydown', event => {
   if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey ||
       event.target.closest('button, input, a, summary, textarea, [contenteditable]')) return;
-  if (event.code === 'Space') {
+  if (event.code === 'Space' && !quickDefense[currentLab]) {
     event.preventDefault();
     toggleScroll();
   } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
